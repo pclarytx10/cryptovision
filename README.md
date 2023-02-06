@@ -10,9 +10,9 @@ CryptoVision is a crypto currency research and portfolio management solution. Th
 - CSS
 - Python
 - Django
-- ![Materialize] (https://materializecss.com/)
-- ![Heroku] (https://www.heroku.com/)
-- ![Bit.io] (https://bit.io/)
+- [Materialize] (https://materializecss.com/)
+- [Heroku] (https://www.heroku.com/)
+- [Bit.io] (https://bit.io/)
 
 ## Screenshot(s):
 --- 
