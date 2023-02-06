@@ -31,4 +31,4 @@ class Coin(models.Model):
         return self.coinname
 
     # def get_absolute_url(self):
-    #     return reverse('coins_detail', kwargs={'coin_id': self.id})
+        # return reverse('coins_detail', kwargs={'coin_id': self.id})

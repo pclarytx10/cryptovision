@@ -31,8 +31,15 @@
             </li>
           </ul>
           <ul class="right">
-            <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
+            {% if user.is_authenticated %}
+            {% comment %} <li><a href="{% url 'coins_create' %}">Add a Coin</a></li> {% endcomment %}
+            {% comment %} <li><a href="/coins">View All My Coins</a></li> {% endcomment %}
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
+          {% else %}
+            <li><a href="{% url 'login' %}">Log In</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          {% endif %}
           </ul>
         </div>
       </nav>
