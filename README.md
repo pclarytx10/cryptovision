@@ -36,11 +36,11 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
   - [ ] Restricted access to app functions until user is logged in
   - [ ] User coin list and portfolio tied to user account
 - [ ] 3 Models
-  - [ ] Coin
+  - [X] Coin
   - [ ] User Coin
   - [ ] Portfolio
 - [ ] Admin View
-  - [ ] Ability to add, edit, and delete coins
+  - [X] Ability to add, edit, and delete coins
   - [ ] Ability to add, edit, and delete user coins
   - [ ] Ability to add, edit, and delete portfolio items
 
