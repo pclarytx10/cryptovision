@@ -31,6 +31,19 @@ def coins_detail(request, coin_id):
         'coin': coin
     })
 
+class CoinCreate(LoginRequiredMixin, CreateView):
+    model = Coin
+    fields = ('coinname', 'coinsymbol', 'description', 'coinusd', 'website', 'apiid', 'coinimage')
+    success_url = '/coins/'
+
+    # This inherited method is called when a
+    # valid coin form is being submitted
+    def form_valid(self, form):
+        # Assign the logged in user (self.request.user)
+        form.instance.user = self.request.user  # form.instance is the coin
+        # Let the CreateView do its job as usual
+        return super().form_valid(form)
+
 # Define the coins update view
 class CoinUpdate(LoginRequiredMixin, UpdateView):
     model = Coin

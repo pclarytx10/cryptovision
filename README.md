@@ -37,11 +37,11 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
   - [ ] User coin list and portfolio tied to user account
 - [ ] 3 Models
   - [X] Coin
-    - [ ] Ability to add, edit, and delete coins
+    - [X] User ability to add, edit, and delete coins
   - [ ] User Coin
-    - [ ] Ability to add, edit, and delete User Coins
+    - [ ] User ability to add, edit, and delete User Coins
   - [ ] Portfolio
-    - [ ] Ability to add, edit, and delete Portfolio Items
+    - [ ] User ability to add, edit, and delete Portfolio Items
 - [ ] Admin View
   - [X] Ability to add, edit, and delete coins
   - [ ] Ability to add, edit, and delete user coins
@@ -53,6 +53,8 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
   - [ ] Currency Name, Symbol, CoinGeck API Key
   - [ ] Error handling and help alert
 - [ ] AJAX query to CoinGecko
+- [ ] Recommendation Model for Coins
+- [ ] Influencer Tracking Model for Coins
 - [ ] Basic Reporting
   - [ ] Currency List
   - [ ] Ability to Remove Currencies from the List
