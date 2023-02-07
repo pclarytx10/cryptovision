@@ -33,7 +33,7 @@ def coins_detail(request, coin_id):
 
 class CoinCreate(LoginRequiredMixin, CreateView):
     model = Coin
-    fields = ('coin_name', 'coinsymbol', 'description', 'coinusd', 'website', 'apiid', 'coinimage')
+    fields = ('coin_name', 'coin_symbol', 'description', 'coin_usd', 'website', 'api_id', 'coin_image')
     success_url = '/coins/'
 
     # This inherited method is called when a

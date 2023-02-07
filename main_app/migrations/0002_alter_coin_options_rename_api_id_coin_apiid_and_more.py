@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='coin',
-            options={'ordering': ('coin_name',)},
+            options={'ordering': ('coinname',)},
         ),
         migrations.RenameField(
             model_name='coin',
@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
         migrations.RenameField(
             model_name='coin',
             old_name='coin_name',
-            new_name='coin_name',
+            new_name='coinname',
         ),
         migrations.RenameField(
             model_name='coin',

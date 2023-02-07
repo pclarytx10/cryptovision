@@ -5,24 +5,24 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Coin(models.Model):
     coin_name = models.CharField(max_length=50)
-    apiid = models.CharField(max_length=250, blank=True)
-    coinsymbol = models.CharField(max_length=10, blank=True)
+    api_id = models.CharField(max_length=250, blank=True)
+    coin_symbol = models.CharField(max_length=10, blank=True)
     categories = models.CharField(max_length=250, blank=True)
-    coinusd = models.FloatField(default=0.00)
+    coin_usd = models.FloatField(default=0.00)
     # Pull en localization via API
     description = models.TextField(max_length=800, blank=True) 
     # Links is a one to many. Defer to another model. (homepage, blockchain site, etc.)
     # website == links.homepage
     website = models.CharField(max_length=250, blank=True)
-    coinchange = models.FloatField(default=0.00)
-    coinmcap = models.FloatField(default=0.00)
-    marketcaprank = models.IntegerField(default=0) 
-    coinathpercent = models.FloatField(default=0.00)
-    coinath =  models.FloatField(default=0.00)
-    coinathdate = models.DateField(blank=True, null=True)
+    coin_change = models.FloatField(default=0.00)
+    coin_mcap = models.FloatField(default=0.00)
+    marketcap_rank = models.IntegerField(default=0) 
+    coin_ath_percent = models.FloatField(default=0.00)
+    coin_ath =  models.FloatField(default=0.00)
+    coin_ath_date = models.DateField(blank=True, null=True)
     # coin_markets - future feature
     # coin_image == image.small
-    coinimage = models.CharField(max_length=250, blank=True)
+    coin_image = models.CharField(max_length=250, blank=True)
 
     class Meta:
         ordering = ('coin_name',)
