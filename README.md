@@ -62,11 +62,11 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
 ## Project MVP Description and Rubric
 --- 
 
-- [ ] Be a full-stack Django application.
-- [ ] Persist data in PostreSQL.
+- [X] Be a full-stack Django application.
+- [X] Persist data in PostreSQL.
 - [ ] Have two models Minimum.
-- [ ] Authenticate users using Django's built-in authentication.
-- [ ] Implement authorization by restricting access to the Creation, Updating & Deletion of resources.
-- [ ] Be deployed online using Heroku.
-- [ ] Have Professional Styling utilizing a CSS framework/library like Materialize or Bootstrap. (Should not be an exact replica of the catcollector app)
+- [X] Authenticate users using Django's built-in authentication.
+- [X] Implement authorization by restricting access to the Creation, Updating & Deletion of resources.
+- [X] Be deployed online using Heroku.
+- [X] Have Professional Styling utilizing a CSS framework/library like Materialize or Bootstrap. (Should not be an exact replica of the catcollector app)
 

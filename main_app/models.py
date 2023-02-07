@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Coin(models.Model):
-    coinname = models.CharField(max_length=50)
+    coin_name = models.CharField(max_length=50)
     apiid = models.CharField(max_length=250, blank=True)
     coinsymbol = models.CharField(max_length=10, blank=True)
     categories = models.CharField(max_length=250, blank=True)
@@ -25,10 +25,10 @@ class Coin(models.Model):
     coinimage = models.CharField(max_length=250, blank=True)
 
     class Meta:
-        ordering = ('coinname',)
+        ordering = ('coin_name',)
 
     def __str__(self) -> str:
-        return self.coinname
+        return self.coin_name
 
-    # def get_absolute_url(self):
-        # return reverse('coins_detail', kwargs={'coin_id': self.id})
+    def get_absolute_url(self):
+        return reverse('coins_detail', kwargs={'coin_id': self.id})

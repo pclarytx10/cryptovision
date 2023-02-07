@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1> {{ coin.coinname }} Details </h1>
+<h1> {{ coin.coin_name }} Details </h1>
 
 <div class="row">
 
@@ -11,7 +11,7 @@
             <p> Price: {{ coin.coinusd }} </p>
         </div>
         <div class="col s4">
-            <img src="{{ coin.coinimage }}" alt="{{ coin.coinname }}" class="img-fluid">
+            <img src="{{ coin.coinimage }}" alt="{{ coin.coin_name }}" class="img-fluid">
         </div>
         <div class="col s12">
             <p> Description: {{ coin.description }} </p>
