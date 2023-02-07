@@ -32,3 +32,23 @@ class Coin(models.Model):
 
     def get_absolute_url(self):
         return reverse('coins_detail', kwargs={'coin_id': self.id})
+
+class User_Coin(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    coin = models.ForeignKey(Coin, on_delete=models.CASCADE)
+    # Add a field to track user's coin holdings
+    coin_holdings = models.FloatField(default=0.0)
+    notes = models.TextField(max_length=500, blank=True)
+    STATUS = (
+        ('R', 'Researching'),
+        ('H', 'Holding'),
+        ('S', 'Sold'),
+        ('O', 'Other')
+    )
+    status = models.CharField(max_length=1, choices=STATUS, default=STATUS[0][0])
+
+    def __str__(self) -> str:
+        return f'{self.user.username} {self.coin.coin_name}'
+
+    class Meta:
+        unique_together = ('user', 'coin')

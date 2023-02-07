@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Coin
+from .models import Coin, User_Coin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -54,6 +54,35 @@ class CoinUpdate(LoginRequiredMixin, UpdateView):
 class CoinDelete(LoginRequiredMixin, DeleteView):
     model = Coin
     success_url = '/coins/'
+
+# Define the user coins index view
+@login_required
+def user_coins_index(request):
+    user_coins = User_Coin.objects.filter(user=request.user)
+    coins = Coin.objects.all()
+    return render(request, 'user_coins/index.html', { 
+        'user_coins': user_coins,
+        'coins': coins 
+    })
+
+# Define the user coins detail view
+@login_required
+def user_coins_detail(request, user_coin_id):
+    user_coin = User_Coin.objects.get(id=user_coin_id)
+    return render(request, 'user_coins/detail.html', { 
+        'user_coin': user_coin
+    })
+
+# Define the user coins update view
+class User_CoinUpdate(LoginRequiredMixin, UpdateView):
+    model = User_Coin
+    fields = '__all__'
+    success_url = '/user_coins/'
+
+# Define the user coins delete view
+class User_CoinDelete(LoginRequiredMixin, DeleteView):
+    model = User_Coin
+    success_url = '/user_coins/'
 
 # Define the signup view
 def signup(request):

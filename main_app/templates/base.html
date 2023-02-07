@@ -35,6 +35,7 @@
             {% if user.is_authenticated %}
             <li><a href="{% url 'coins_create' %}">Add a Coin</a></li>
             <li><a href="/coins">View All Coins</a></li>
+            <li><a href="/user_coins">View My Coins</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
           {% else %}
             <li><a href="{% url 'login' %}">Log In</a></li>

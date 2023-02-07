@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>User Coin List</h1>
+
+{% for user_coin in user_coins %}
+
+<div class="card">
+<a href="{% url 'user_coins_detail' user_coin.id %}"> 
+    <div class="card-content">
+        <span class="card-title">{{ user_coin.coin_name }}</span>
+        <div class="coin_card">
+            <div>
+                <p>Status: {{ user_coin.get_status_display }}</p>
+                <p>Holdings: {{ user_coin.coin_holdings }}</p>
+                <p>Notes: {{ user_coin.notes }}</p>
+                <p>CoinID: {{ user_coin.coin_id }}</p>
+            </div>
+        </div>
+    </div>
+</a>
+</div>
+
+<script>
+    var selectEl = document.getElementById('id_status');
+    M.FormSelect.init(selectEl);
+</script>
+
+{% endfor %} {% endblock %}

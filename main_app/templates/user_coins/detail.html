@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1> {{ user_coin.coin }} Details </h1>
+
+<div class="row">
+
+    <div class="col s12">
+        {% comment %} <h2> {{ coin.name }} </h2> {% endcomment %}
+        <div class="col s12">
+            <p>Status: {{ user_coin.get_status_display }}</p>
+            <p>CoinID: {{ user_coin.coin_id }}</p>
+            <p>Holdings: {{ user_coin.coin_holdings }}</p>
+            <p>Notes: {{ user_coin.notes }}</p>
+        </div>
+        <div class="col s4 card-action"> 
+            <a href="{% url 'user_coins_update' user_coin.id %}">Edit</a>
+            <a href="{% url 'user_coins_delete' user_coin.id %}">Delete</a>
+        </div> 
+    </div>
+</div>
+
+<script>
+    var selectEl = document.getElementById('id_status');
+    M.FormSelect.init(selectEl);
+</script>
+
+{%endblock%}
+
+<p>Status: {{ user_coin.get_status_display }}</p>
+<p>Holdings: {{ user_coin.coin_holdings }}</p>
+<p>Notes: {{ user_coin.notes }}</p>
+<p>CoinID: {{ user_coin.coin_id }}</p>
