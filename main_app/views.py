@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from .models import Coin
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 # Import login_required to protect def views
@@ -15,6 +16,31 @@ def home(request):
 # Define the about view
 def about(request):
   return render(request, 'about.html')
+
+# Define the coins index view
+@login_required
+def coins_index(request):
+    coins = Coin.objects.all()
+    return render(request, 'coins/index.html', { 'coins': coins })
+
+# Define the coins detail view
+@login_required
+def coins_detail(request, coin_id):
+    coin = Coin.objects.get(id=coin_id)
+    return render(request, 'coins/detail.html', { 
+        'coin': coin
+    })
+
+# Define the coins update view
+class CoinUpdate(LoginRequiredMixin, UpdateView):
+    model = Coin
+    fields = '__all__'
+    success_url = '/coins/'
+
+# Define the coins delete view
+class CoinDelete(LoginRequiredMixin, DeleteView):
+    model = Coin
+    success_url = '/coins/'
 
 # Define the signup view
 def signup(request):

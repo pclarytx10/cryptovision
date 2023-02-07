@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1> {{ coin.coinname }} Details </h1>
+
+<div class="row">
+
+    <div class="col s12">
+        {% comment %} <h2> {{ coin.name }} </h2> {% endcomment %}
+        <div class="col s8">
+            <p> Symbol: {{ coin.coinsymbol }} </p>
+            <p> Price: {{ coin.coinusd }} </p>
+        </div>
+        <div class="col s4">
+            <img src="{{ coin.coinimage }}" alt="{{ coin.coinname }}" class="img-fluid">
+        </div>
+        <div class="col s12">
+            <p> Description: {{ coin.description }} </p>
+        </div>
+        <div class="col s4 card-action"> 
+            <a href="{% url 'coins_update' coin.id %}">Edit</a>
+            <a href="{% url 'coins_delete' coin.id %}">Delete</a>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

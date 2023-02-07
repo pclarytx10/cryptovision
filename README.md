@@ -29,22 +29,24 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
 
 ### Features:
 --- 
-- [ ] Authentication
-  - [ ] Login/Logout
-  - [ ] Sign Up
+- [X] Authentication
+  - [X] Login/Logout
+  - [X] Sign Up
 - [ ] Authorization
-  - [ ] Restricted access to app functions until user is logged in
+  - [X] Restricted access to app functions until user is logged in
   - [ ] User coin list and portfolio tied to user account
 - [ ] 3 Models
   - [X] Coin
+    - [ ] Ability to add, edit, and delete coins
   - [ ] User Coin
+    - [ ] Ability to add, edit, and delete User Coins
   - [ ] Portfolio
+    - [ ] Ability to add, edit, and delete Portfolio Items
 - [ ] Admin View
   - [X] Ability to add, edit, and delete coins
   - [ ] Ability to add, edit, and delete user coins
   - [ ] Ability to add, edit, and delete portfolio items
 
-  
 ### Future Enhancements:
 
 - [ ] User input form
