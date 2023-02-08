@@ -1,14 +1,17 @@
 {% extends 'base.html' %} {% block content %}
-<h2>Delete Holding</h2>
 
-<h4>
-  Are you sure you want to delete
-  <span class="blue-text text-darken-2">{{ object.user_coin.coin }}</span> holding id:<span class="blue-text text-darken-2">{{ object.id}}</span>?
-</h4>
+<div class="card form-card del-card">
+  <h3>Delete <span class="blue-text text-darken-2">{{ object.user_coin.coin }}</span> holding id:<span class="blue-text text-darken-2">{{ object.id}}</span></h3>
 
-<form action="" method="POST">
-  {% csrf_token %}
-  <input type="submit" value="Yes - Delete!" class="btn" />
-  <a href="{% url 'holdings_detail' holding.id %}">Cancel</a>
-</form>
+  <h5>
+    Are you sure you want to delete?
+  </h5>
+
+  <form class="del-form"  action="" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Yes - Delete!" class="btn" />
+    <a href="{% url 'holdings_detail' holding.id %}" class="btn blue">Cancel</a>
+  </form>
+</div>
+
 {% endblock %}

@@ -8,25 +8,26 @@
     </div> 
 </div> 
 
-<div class="row">
-
-    <div class="col s12">
-        {% comment %} <h2> {{ coin.name }} </h2> {% endcomment %}
-        <div class="col s8">
-            <p> Symbol: {{ coin.coin_symbol }} </p>
-            <p> Price: {{ coin.coin_usd }} </p>
-        </div>
-        <div class="col s4">
-            <img src="{{ coin.coin_image }}" alt="{{ coin.coin_name }}" class="img-fluid">
-        </div>
+<div class="card">
+    <div class="row">
         <div class="col s12">
-            <p> Description: {{ coin.description }} </p>
-        </div>
-        <div class="col s4 card-action">
-            {% comment %} <a href="{% url 'user_coins_create' %}">Track</a>  {% endcomment %}
-            <a href="{{ create_user_coin_url }}">Track</a> 
-            <a href="{% url 'coins_update' coin.id %}">Edit</a>
-            <a href="{% url 'coins_delete' coin.id %}">Delete</a>
+            {% comment %} <h2> {{ coin.name }} </h2> {% endcomment %}
+            <div class="col s8">
+                <p> Symbol: {{ coin.coin_symbol }} </p>
+                <p> Price: {{ coin.coin_usd }} </p>
+            </div>
+            <div class="col s4">
+                <img class="detail-img" src="{{ coin.coin_image }}" alt="{{ coin.coin_name }}" class="img-fluid">
+            </div>
+            <div class="col s12">
+                <p> Description: {{ coin.description }} </p>
+            </div>
+            <div class="col s4 card-action">
+                {% comment %} <a href="{% url 'user_coins_create' %}">Track</a>  {% endcomment %}
+                <a href="{{ create_user_coin_url }}">Track</a> 
+                <a href="{% url 'coins_update' coin.id %}">Edit</a>
+                <a href="{% url 'coins_delete' coin.id %}">Delete</a>
+            </div>
         </div>
     </div>
 </div>

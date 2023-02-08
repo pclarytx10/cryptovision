@@ -47,11 +47,49 @@ form {
 .tbl-img {
     width: 14px;
     height: 14px;
-    /* margin-right: 5px; */
+}
+.detail-img{
+    margin: 1rem;
 }
 .material-icons {
     margin: .5rem;
 }
 .dropdown-content {
     color: red;
+}
+.collapsible-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 1.5;
+  padding: 1rem;
+  background-color: #e3f2fd ;
+  border-bottom: 1px solid #4a148c;
+}
+.form-card {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+}
+.del-card {
+    display: flex;
+    /* color: red; */
+    flex-direction: column;
+    align-items: center;
+}
+.del-form {
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+}
+.del-form > input {
+    margin: 1rem;
+}
+.del-form > a {
+    margin: 1rem;
 }

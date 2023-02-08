@@ -9,65 +9,89 @@
     </div> 
 </div>
 
-<div class="row">
-
-    <div class="col s12">
-        {% comment %} <h2> {{ coin.name }} </h2> {% endcomment %}
-        <div class="col s12">
-            <p>Status: {{ user_coin.get_status_display }}</p>
-            <p>CoinID: {{ user_coin.coin_id }}</p>
-            <p>Holdings: {{ user_coin.coin_holdings }}</p>
-            <p>Notes: {{ user_coin.notes }}</p>
-        </div>
-        <div class="col s4 card-action"> 
-            <a href="{% url 'user_coins_update' user_coin.id %}">Edit</a>
-            <a href="{% url 'user_coins_delete' user_coin.id %}">Delete</a>
-        </div> 
+<div class="card">
+  <div class="row">
+    <div class="col s6">
+      <p>Status: {{ user_coin.get_status_display }}</p>
+      <p>Holdings: {{ user_coin.coin_holdings }}</p>
     </div>
-
+    <div class="col s6">
+      <p>CoinID: {{ user_coin.coin_id }}</p>
+    </div>
     <div class="col s12">
-        <form action="{% url 'add_holding' user_coin.id %}" method="POST">
-          {% csrf_token %}
-          {{ holding_form.as_p }}
-          <input type="submit" value="Add Holding" class="btn blue">
-        </form>
-    
-        <table class="striped">
-          <thead>
-            <tr>
-                <th>Location</th>
-                <th>Exchange</th>
-                <th>Wallet</th>
-                <th>Location Name</th>
-                <th>Self Custody</th>
-                <th>Quantity</th>
-                <th>Cost Basis</th>
-                <th>Date</th>
-                <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for holding in user_coin.holding_set.all %}            
-            <tr>
-                <td>{{ holding.get_location_display }}</td>
-                <td>{{ holding.get_exchange_display }}</td>
-                <td>{{ holding.get_wallet_display }}</td>
-                <td>{{ holding.location_name }}</td>
-                <td>{{ holding.get_self_custody_display }}</td>
-                <td>{{ holding.quantity }}</td>
-                <td>{{ holding.cost_basis }}</td>
-                <td>{{ holding.date }}</td>
-                <td>{{ holding.notes }}</td>
-                <td><a class="blue-text text-darken-4" href="{% url 'holdings_detail' holding.id %}">View</a></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div> 
+      <p>Notes: {{ user_coin.notes }}</p>
+    </div>
+  </div>
+  <div class="col s4 card-action"> 
+    <a href="{% url 'user_coins_update' user_coin.id %}">Edit</a>
+    <a href="{% url 'user_coins_delete' user_coin.id %}">Delete</a>
+  </div> 
+</div>
 
+<div class="card">
+  <div class="row">
+    <div class="col s12">
+      <table class="striped">
+        <thead>
+          <tr>
+              <th>Location</th>
+              <th>Exchange</th>
+              <th>Wallet</th>
+              <th>Location Name</th>
+              <th>Self Custody</th>
+              <th>Quantity</th>
+              <th>Cost Basis</th>
+              <th>Date</th>
+              <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for holding in user_coin.holding_set.all %}            
+          <tr>
+              <td>{{ holding.get_location_display }}</td>
+              <td>{{ holding.get_exchange_display }}</td>
+              <td>{{ holding.get_wallet_display }}</td>
+              <td>{{ holding.location_name }}</td>
+              <td>{{ holding.get_self_custody_display }}</td>
+              <td>{{ holding.quantity }}</td>
+              <td>{{ holding.cost_basis }}</td>
+              <td>{{ holding.date }}</td>
+              <td>{{ holding.notes }}</td>
+              <td><a class="blue-text text-darken-4" href="{% url 'holdings_detail' holding.id %}">View</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col s12"> 
+        <ul class="collapsible blue-text text-darken-4">
+          <li>
+              <div class="collapsible-header">
+                  Create a new Holding...
+                  {% comment %} <i class="material-icons">filter_drama</i> {% endcomment %}
+              </div>
+              <div class="collapsible-body">
+                  <form action="{% url 'add_holding' user_coin.id %}" method="POST">
+                    {% csrf_token %}
+                    {{ holding_form.as_p }}
+                    <input type="submit" value="Add Holding" class="btn blue">
+                  </form>
+              </div>
+          </li>
+      </ul>
+      </div> 
 </div>
 
 <script>
+    {% comment %} Initialize Materialize Collapsible {% endcomment %}
+    $(document).ready(function(){
+      $('.collapsible').collapsible();
+    });
+    {% comment %} Initialize Materialize Select {% endcomment %}
     var dateEl = document.getElementById('id_date');
     M.Datepicker.init(dateEl, {
       format: 'yyyy-mm-dd',
