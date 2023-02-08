@@ -87,7 +87,12 @@ def user_coins_detail(request, user_coin_id):
 def holdings_detail(request, holding_id):
     holding = Holding.objects.get(id=holding_id)
     return render(request, 'holdings/detail.html', { 'holding': holding })
-    
+
+# Define the holdings delete view
+class HoldingDelete(LoginRequiredMixin, DeleteView):
+    model = Holding
+    success_url = '/user_coins/'
+
 # Define adding a hodling to a user coin 
 @login_required
 def add_holding(request, user_coin_id):

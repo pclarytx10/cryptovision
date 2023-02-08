@@ -6,23 +6,32 @@
 
     <div class="col s12">
         {% comment %} <h2> {{ user_coin.name }} </h2> {% endcomment %}
-        <div class="col s8">
+        <div class="col s6">
             <p>Location: {{ holding.get_location_display }}</p>
-            <p>Exchange: {{ holding.get_exchange_display }}</p>
-            <p>Wallet: {{ holding.get_wallet_display }}</p>
-            <p>Location Name: {{ holding.location_name }}</p>
+            {% if holding.get_location_display == 'Exchange' %}
+                <p>Exchange: {{ holding.get_exchange_display }}</p>
+            {% elif holding.get_location_display == 'Wallet' %}
+                <p>Wallet: {{ holding.get_wallet_display }}</p>
+            {% else %}
+                <p>Location Name: {{ holding.location_name }}</p>
+            {% endif %}
+            {% if holding.get_exchange_display == 'Other' or holding.get_wallet_display == 'Other' %}
+                <p>Location Name: {{ holding.location_name }}</p>
+            {% endif %}
             <p>Self Custody: {{ holding.get_self_custody_display }}</p>
+        </div>
+        <div class="col s6">
+            <p>Date: {{ holding.date }}</p>
             <p>Quantity: {{ holding.quantity }}</p>
             <p>Cost Basis: {{ holding.cost_basis }}</p>
-            <p>Date: {{ holding.date }}</p>
         </div>
         <div class="col s12">
-            <p> Notes: {{ holding.note }} </p>
+            <p> Notes: {{ holding.notes }} </p>
         </div>
-        {% comment %} <div class="col s4 card-action">
-            <a href="{% url 'holdings_update' holding.id %}">Edit</a>
+        <div class="col s4 card-action">
+            {% comment %} <a href="{% url 'holdings_update' holding.id %}">Edit</a> {% endcomment %}
             <a href="{% url 'holdings_delete' holding.id %}">Delete</a>
-        </div> {% endcomment %}
+        </div> 
     </div>
 </div>
 

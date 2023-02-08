@@ -16,5 +16,6 @@ urlpatterns = [
     path('user_coins/<int:pk>/update/', views.User_CoinUpdate.as_view(), name='user_coins_update'),
     path('user_coins/<int:pk>/delete/', views.User_CoinDelete.as_view(), name='user_coins_delete'),
     path('holdings/<int:holding_id>/', views.holdings_detail, name='holdings_detail'),
+    path('holdings/<int:pk>/delete/', views.HoldingDelete.as_view(), name='holdings_delete'),
     path('accounts/signup/', views.signup, name='signup'),  
 ]
