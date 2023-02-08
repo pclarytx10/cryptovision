@@ -36,8 +36,7 @@
       <ul id="dropdown1" class="dropdown-content">
         <li><a href="/coins">All Coins</a></li>
         <li><a href="{% url 'coins_create' %}">Add Coin</a></li>
-        <li class="divider"></li>
-        <li><a href="/user_coins">My Coins</a></li>
+        {% comment %} <li class="divider"></li> {% endcomment %}
       </ul>
       <nav>
         <div class="nav-wrapper blue darken-3">
@@ -52,10 +51,7 @@
             {% if user.is_authenticated %}
             <!-- Dropdown Trigger -->
             <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Coins</a></li>
-            {% comment %} <li><a href="{% url 'coins_create' %}">Add a Coin</a></li> {% endcomment %}
-            {% comment %} <li><a href="/coins">View All Coins</a></li> {% endcomment %}
-            {% comment %} <li><a href="{% url 'user_coins_create' %}">Track a Coin</a></li> {% endcomment %}
-            {% comment %} <li><a href="/user_coins">View My Coins</a></li> {% endcomment %}
+            <li><a href="/user_coins">My Coins</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
           {% else %}
             <li><a href="{% url 'login' %}">Log In</a></li>
