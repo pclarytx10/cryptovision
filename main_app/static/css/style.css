@@ -44,3 +44,11 @@ form {
 .home-body-list > ul > li {
     margin: .5rem;
 }
+.tbl-img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+.material-icons {
+    margin: .5rem;
+}

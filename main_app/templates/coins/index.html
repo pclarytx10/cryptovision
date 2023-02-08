@@ -1,8 +1,32 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Coin List</h1>
+<h3>Coin List</h3>
 
-{% for coin in coins %}
+<table class="striped">
+          <thead>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Price</th>
+                {% comment %} <th>24hr%</th> {% endcomment %}
+                <th>MC Rank</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for coin in coins %}            
+            <tr>
+                <td><img class="tbl-img" src="{{ coin.coin_image }}" alt="coin image"> {{ coin.coin_name }}</td>
+                <td>{{ coin.coin_symbol }}</td>
+                <td>{{ coin.coin_usd }}</td>
+                {% comment %} <td>{{ coin.coin_change }}</td> {% endcomment %}
+                <td>{{ coin.marketcap_rank }}</td>
+                <td><a class="blue-text text-darken-4" href="{% url 'detail' coin.id %}">View</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+{% comment %} {% for coin in coins %}
 
 <div class="card">
 <a href="{% url 'detail' coin.id %}"> 
@@ -18,4 +42,6 @@
     </div>
 </a>
 </div>
-{% endfor %} {% endblock %}
+{% endfor %}  {% endcomment %}
+
+{% endblock %}

@@ -1,6 +1,12 @@
 {% extends 'base.html' %} {% block content %}
-
-<h1> {{ coin.coin_name }} Details </h1>
+<div class="row">
+    <div class="col s11"> 
+        <h3> {{ coin.coin_name }} Details </h3>
+    </div>
+    <div class="col s1"> 
+        <a href="{% url 'index' %}"><i class="small material-icons blue-text text-darken-3">fast_rewind</i></a>
+    </div> 
+</div> 
 
 <div class="row">
 
