@@ -31,16 +31,16 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
 - [X] Authentication
   - [X] Login/Logout
   - [X] Sign Up
-- [ ] Authorization
+- [X] Authorization
   - [X] Restricted access to app functions until user is logged in
-  - [ ] User coin list and holdings tied to user account
-- [ ] 3 Models
+  - [X] User coin list and holdings tied to user account
+- [X] 3 Models
   - [X] Coin
     - [X] User ability to add, edit, and delete coins
   - [X] User Coin
     - [X] User ability to add, edit, and delete User Coins
-  - [ ] Holdings
-    - [ ] User ability to add, edit, and delete Holding Items
+  - [X] Holdings
+    - [X] User ability to add, edit, and delete Holding Items
 - [X] Admin View
   - [X] Ability to add, edit, and delete coins
   - [X] Ability to add, edit, and delete user coins
@@ -51,7 +51,7 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
 - [ ] User input form
   - [ ] Currency Name, Symbol, CoinGeck API Key
   - [ ] Error handling and help alert
-- [ ] AJAX query to CoinGecko
+- [ ] API query to CoinGecko
 - [ ] Recommendation Model for Coins
 - [ ] Influencer Tracking Model for Coins
 - [ ] Basic Reporting
