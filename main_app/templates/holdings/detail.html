@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block content %}
+
+<h2> Holding Detail </h2>
+
+<div class="row">
+
+    <div class="col s12">
+        {% comment %} <h2> {{ user_coin.name }} </h2> {% endcomment %}
+        <div class="col s8">
+            <p>Location: {{ holding.get_location_display }}</p>
+            <p>Exchange: {{ holding.get_exchange_display }}</p>
+            <p>Wallet: {{ holding.get_wallet_display }}</p>
+            <p>Location Name: {{ holding.location_name }}</p>
+            <p>Self Custody: {{ holding.get_self_custody_display }}</p>
+            <p>Quantity: {{ holding.quantity }}</p>
+            <p>Cost Basis: {{ holding.cost_basis }}</p>
+            <p>Date: {{ holding.date }}</p>
+        </div>
+        <div class="col s12">
+            <p> Notes: {{ holding.note }} </p>
+        </div>
+        {% comment %} <div class="col s4 card-action">
+            <a href="{% url 'holdings_update' holding.id %}">Edit</a>
+            <a href="{% url 'holdings_delete' holding.id %}">Delete</a>
+        </div> {% endcomment %}
+    </div>
+</div>
+
+{%endblock%}

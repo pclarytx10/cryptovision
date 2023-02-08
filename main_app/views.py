@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .models import Coin, User_Coin
+from .models import Coin, User_Coin, Holding
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .forms import HoldingForm
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 # Import login_required to protect def views
@@ -75,9 +76,31 @@ def user_coins_index(request):
 @login_required
 def user_coins_detail(request, user_coin_id):
     user_coin = User_Coin.objects.get(id=user_coin_id)
+    # instantiate HoldingForm to be rendered in the template
+    holding_form = HoldingForm()
     return render(request, 'user_coins/detail.html', { 
-        'user_coin': user_coin
+        'user_coin': user_coin,
+        'holding_form': holding_form
     })
+# Define the holdings detail view
+@login_required
+def holdings_detail(request, holding_id):
+    holding = Holding.objects.get(id=holding_id)
+    return render(request, 'holdings/detail.html', { 'holding': holding })
+    
+# Define adding a hodling to a user coin 
+@login_required
+def add_holding(request, user_coin_id):
+    # create the ModelForm using the data in request.POST
+    form = HoldingForm(request.POST)
+    # validate the form
+    if form.is_valid():
+        # don't save the form to the db until it
+        # has the user_coin_id assigned
+        new_holding = form.save(commit=False)
+        new_holding.user_coin_id = user_coin_id
+        new_holding.save()
+    return redirect('user_coins_detail', user_coin_id=user_coin_id)
 
 class User_CoinCreate(LoginRequiredMixin, CreateView):
     model = User_Coin

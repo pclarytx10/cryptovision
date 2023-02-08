@@ -17,9 +17,59 @@
             <a href="{% url 'user_coins_delete' user_coin.id %}">Delete</a>
         </div> 
     </div>
+    <div class="col s12">
+        <form action="{% url 'add_holding' user_coin.id %}" method="POST">
+          {% csrf_token %}
+          {{ holding_form.as_p }}
+          <input type="submit" value="Add Holding" class="btn blue">
+        </form>
+    
+        <table class="striped">
+          <thead>
+            <tr>
+                <th>Location</th>
+                <th>Exchange</th>
+                <th>Wallet</th>
+                <th>Location Name</th>
+                <th>Self Custody</th>
+                <th>Quantity</th>
+                <th>Cost Basis</th>
+                <th>Date</th>
+                <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for holding in user_coin.holding_set.all %}            
+            <tr>
+                <td>{{ holding.get_location_display }}</td>
+                <td>{{ holding.get_exchange_display }}</td>
+                <td>{{ holding.get_wallet_display }}</td>
+                <td>{{ holding.location_name }}</td>
+                <td>{{ holding.get_self_custody_display }}</td>
+                <td>{{ holding.quantity }}</td>
+                <td>{{ holding.cost_basis }}</td>
+                <td>{{ holding.date }}</td>
+                <td>{{ holding.notes }}</td>
+                <td><a class="blue-text text-darken-4" href="{% url 'holdings_detail' holding.id %}">View</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div> 
 </div>
 
 <script>
+    var dateEl = document.getElementById('id_date');
+    M.Datepicker.init(dateEl, {
+      format: 'yyyy-mm-dd',
+      defaultDate: new Date(),
+      setDefaultDate: true,
+      autoClose: true
+    });
+    var selectEle = document.getElementById('id_location');
+    M.FormSelect.init(selectEle);
+    var selectEle = document.getElementById('id_wallet');
+    M.FormSelect.init(selectEle);
     var selectEl = document.getElementById('id_status');
     M.FormSelect.init(selectEl);
 </script>

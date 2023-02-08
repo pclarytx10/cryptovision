@@ -41,7 +41,9 @@ class User_Coin(models.Model):
     notes = models.TextField(max_length=500, blank=True)
     STATUS = (
         ('R', 'Researching'),
+        ('A', 'Acumulating'),
         ('H', 'Holding'),
+        ('L', 'Selling'),
         ('S', 'Sold'),
         ('O', 'Other')
     )
@@ -86,9 +88,15 @@ class Holding(models.Model):
     )
     wallet = models.CharField(max_length=1, choices=WALLET, blank=True)
     location_name = models.CharField(max_length=50, blank=True)
-    self_custody = models.BooleanField(default=False)
+    CUSTODY = (
+        ('C', 'Custodial'),
+        ('S', 'Self'),
+        ('T', 'Smart Contract'),
+        ('O', 'Other')
+    )
+    self_custody = models.CharField(max_length=1, choices=CUSTODY, default=CUSTODY[0][0])
     quantity = models.FloatField(default=0.00)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField('Holding Date')
     cost_basis = models.FloatField(default=0.00)
     notes = models.TextField(max_length=500, blank=True)
 
