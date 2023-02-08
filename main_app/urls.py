@@ -11,6 +11,7 @@ urlpatterns = [
     path('coins/<int:pk>/delete/', views.CoinDelete.as_view(), name='coins_delete'),
     path('user_coins/', views.user_coins_index, name='user_coins_index'),
     path('user_coins/<int:user_coin_id>/', views.user_coins_detail, name='user_coins_detail'),
+    path('user_coins/create/<int:coin_id>/', views.User_CoinCreate.as_view(), name='user_coins_create'),
     path('user_coins/<int:pk>/update/', views.User_CoinUpdate.as_view(), name='user_coins_update'),
     path('user_coins/<int:pk>/delete/', views.User_CoinDelete.as_view(), name='user_coins_delete'),
     path('accounts/signup/', views.signup, name='signup'),  

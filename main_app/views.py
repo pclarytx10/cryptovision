@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .models import Coin, User_Coin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
@@ -27,8 +28,13 @@ def coins_index(request):
 @login_required
 def coins_detail(request, coin_id):
     coin = Coin.objects.get(id=coin_id)
-    return render(request, 'coins/detail.html', { 
-        'coin': coin
+    create_user_coin_url = reverse('user_coins_create', kwargs={'coin_id': coin_id})
+    # return render(request, 'coins/detail.html', { 
+    #     'coin': coin
+    # })
+    return render(request, 'coins/detail.html', {
+        'coin': coin, 
+        'create_user_coin_url': create_user_coin_url
     })
 
 class CoinCreate(LoginRequiredMixin, CreateView):
@@ -73,10 +79,32 @@ def user_coins_detail(request, user_coin_id):
         'user_coin': user_coin
     })
 
+class User_CoinCreate(LoginRequiredMixin, CreateView):
+    model = User_Coin
+    fields = ('coin', 'status', 'coin_holdings', 'notes')
+    success_url = '/user_coins/'
+
+    # get the initial coin value for the form
+    def get_initial(self):
+        initial = super().get_initial()
+        coin_id = self.kwargs.get('coin_id')
+        initial['coin'] = coin_id
+        initial['status'] = 'Researching'
+        initial['coin_holdings'] = 0
+        return initial
+
+    # This inherited method is called when a
+    # valid coin form is being submitted
+    def form_valid(self, form):
+        # Assign the logged in user (self.request.user)
+        form.instance.user = self.request.user  # form.instance is the coin
+        # Let the CreateView do its job as usual
+        return super().form_valid(form)
+
 # Define the user coins update view
 class User_CoinUpdate(LoginRequiredMixin, UpdateView):
     model = User_Coin
-    fields = '__all__'
+    fields = ('coin', 'coin_holdings', 'notes','status')
     success_url = '/user_coins/'
 
 # Define the user coins delete view

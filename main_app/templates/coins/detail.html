@@ -16,7 +16,9 @@
         <div class="col s12">
             <p> Description: {{ coin.description }} </p>
         </div>
-        <div class="col s4 card-action"> 
+        <div class="col s4 card-action">
+            {% comment %} <a href="{% url 'user_coins_create' %}">Track</a>  {% endcomment %}
+            <a href="{{ create_user_coin_url }}">Track</a> 
             <a href="{% url 'coins_update' coin.id %}">Edit</a>
             <a href="{% url 'coins_delete' coin.id %}">Delete</a>
         </div>

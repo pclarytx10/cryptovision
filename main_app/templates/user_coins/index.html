@@ -7,14 +7,15 @@
 <div class="card">
 <a href="{% url 'user_coins_detail' user_coin.id %}"> 
     <div class="card-content">
-        <span class="card-title">{{ user_coin.coin_name }}</span>
-        <div class="coin_card">
+        <span class="card-title">{{ user_coin.coin }}</span>
+        <div class="coin_card inf-card">
             <div>
+                {% comment %} <p>Coin: {{ user_coin.coin }}</p> {% endcomment %}
                 <p>Status: {{ user_coin.get_status_display }}</p>
                 <p>Holdings: {{ user_coin.coin_holdings }}</p>
                 <p>Notes: {{ user_coin.notes }}</p>
-                <p>CoinID: {{ user_coin.coin_id }}</p>
             </div>
+            <img src="{{ user_coin.coin.coin_image }}" alt="user_coin.coin">
         </div>
     </div>
 </a>

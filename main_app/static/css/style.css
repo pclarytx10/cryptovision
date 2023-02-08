@@ -15,3 +15,23 @@ text-align: right;
 form {
     margin: 1rem;
 }
+.coin_card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.card-action {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.inf-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.inf-card > img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
