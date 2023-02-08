@@ -52,3 +52,48 @@ class User_Coin(models.Model):
 
     class Meta:
         unique_together = ('user', 'coin')
+
+class Holding(models.Model):
+    user_coin = models.ForeignKey(User_Coin, on_delete=models.CASCADE)
+    LOCATION = (
+        ('E', 'Exchange'),
+        ('W', 'Wallet'),
+        ('O', 'Other')
+    )
+    location = models.CharField(max_length=1, choices=LOCATION, default=LOCATION[0][0])
+    EXCHANGE = (
+        ('B', 'Binance'),
+        ('U', 'Binanace.US'),
+        ('X', 'Bittrex'),
+        ('E', 'Cex.io'),
+        ('C', 'Coinbase'),
+        ('G', 'Gemini'),
+        ('K', 'Kraken'),
+        ('O', 'Other')
+    )
+    exchange = models.CharField(max_length=1, choices=EXCHANGE, blank=True)
+    WALLET = (
+        ('A', 'Atomic Wallet'),
+        ('C', 'Coinbase Wallet'),
+        ('D', 'Daedalus Wallet'),
+        ('E', 'Exodus'),
+        ('L', 'Ledger'),
+        ('M', 'Metamask'),
+        ('R', 'Trezor'),
+        ('T', 'Trust Wallet'),
+        ('Y', 'Yoroi Wallet'),
+        ('O', 'Other')
+    )
+    wallet = models.CharField(max_length=1, choices=WALLET, blank=True)
+    location_name = models.CharField(max_length=50, blank=True)
+    self_custody = models.BooleanField(default=False)
+    quantity = models.FloatField(default=0.00)
+    date = models.DateField(auto_now_add=True)
+    cost_basis = models.FloatField(default=0.00)
+    notes = models.TextField(max_length=500, blank=True)
+
+    def __str__(self) -> str:
+        return f'{self.user_coin.user.username} {self.user_coin.coin.coin_name} {self.date}'
+
+    class Meta:
+        ordering = ['-date']

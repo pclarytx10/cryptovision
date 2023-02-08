@@ -24,8 +24,7 @@ Pages to be added...
 ## Getting Started: 
 --- 
 
-A live version of this app is hosted on Heroku. To use the app, please visit the following link: 
-<!-- [CryptoVision] (https://cryptovision.herokuapp.com/) -->
+A live version of this app is hosted on Heroku. To use the app, please visit the following link: [CryptoVision] (https://cryptovision.herokuapp.com/)
 
 ### Features:
 --- 
@@ -34,18 +33,18 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
   - [X] Sign Up
 - [ ] Authorization
   - [X] Restricted access to app functions until user is logged in
-  - [ ] User coin list and portfolio tied to user account
+  - [ ] User coin list and holdings tied to user account
 - [ ] 3 Models
   - [X] Coin
     - [X] User ability to add, edit, and delete coins
-  - [ ] User Coin
-    - [ ] User ability to add, edit, and delete User Coins
-  - [ ] Portfolio
-    - [ ] User ability to add, edit, and delete Portfolio Items
-- [ ] Admin View
+  - [X] User Coin
+    - [X] User ability to add, edit, and delete User Coins
+  - [ ] Holdings
+    - [ ] User ability to add, edit, and delete Holding Items
+- [X] Admin View
   - [X] Ability to add, edit, and delete coins
-  - [ ] Ability to add, edit, and delete user coins
-  - [ ] Ability to add, edit, and delete portfolio items
+  - [X] Ability to add, edit, and delete user coins
+  - [X] Ability to add, edit, and delete holding items
 
 ### Future Enhancements:
 
