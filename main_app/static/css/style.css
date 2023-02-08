@@ -52,3 +52,6 @@ form {
 .material-icons {
     margin: .5rem;
 }
+.dropdown-content {
+    color: red;
+}

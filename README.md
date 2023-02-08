@@ -54,16 +54,18 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
 - [ ] API query to CoinGecko
 - [ ] Recommendation Model for Coins
 - [ ] Influencer Tracking Model for Coins
-- [ ] Basic Reporting
-  - [ ] Currency List
-  - [ ] Ability to Remove Currencies from the List
+- [ ] Reporting and Analytics
+  - [ ] Pie Chart of Holdings
+  - [ ] Heatmap of Holdings (% change)
+  - [ ] Profitability of Holdings
+  - [ ] Portfolio Performance
 
 ## Project MVP Description and Rubric
 --- 
 
 - [X] Be a full-stack Django application.
 - [X] Persist data in PostreSQL.
-- [ ] Have two models Minimum.
+- [X] Have two models Minimum.
 - [X] Authenticate users using Django's built-in authentication.
 - [X] Implement authorization by restricting access to the Creation, Updating & Deletion of resources.
 - [X] Be deployed online using Heroku.
