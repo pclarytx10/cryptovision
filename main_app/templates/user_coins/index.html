@@ -2,15 +2,37 @@
 
 <h3>User Coin List</h3>
 
-{% for user_coin in user_coins %}
-
 <div class="card">
+    <table class="striped">
+          <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user_coin in user_coins  %}            
+            <tr>
+                <td><img class="tbl-img" src="{{ user_coin.coin.coin_image }}" alt="coin image"> <span>{{ user_coin.coin.coin_name }}</span></td>
+                <td>{{ user_coin.get_status_display }}</td>
+                <td>{{ user_coin.coin_holdings }}</td>
+                <td>{{ user_coin.notes }}</td>
+                <td><a class="blue-text text-darken-4" href="{% url 'user_coins_detail' user_coin.id %}">View</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+    </table>
+</div>
+
+{% comment %} {% for user_coin in user_coins %} {% endcomment %}
+
+{% comment %} <div class="card">
     <a href="{% url 'user_coins_detail' user_coin.id %}"> 
         <div class="card-content">
             <span class="card-title">{{ user_coin.coin }}</span>
             <div class="coin_card inf-card">
                 <div>
-                    {% comment %} <p>Coin: {{ user_coin.coin }}</p> {% endcomment %}
                     <p>Status: {{ user_coin.get_status_display }}</p>
                     <p>Holdings: {{ user_coin.coin_holdings }}</p>
                     <p>Notes: {{ user_coin.notes }}</p>
@@ -19,11 +41,13 @@
             </div>
         </div>
     </a>
-</div>
+</div> {% endcomment %}
 
-<script>
+{% comment %} <script>
     var selectEl = document.getElementById('id_status');
     M.FormSelect.init(selectEl);
 </script>
 
-{% endfor %} {% endblock %}
+{% endfor %}  {% endcomment %}
+
+{% endblock %}
