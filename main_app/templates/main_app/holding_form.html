@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block content %}
+{% if object %}
+<h2>Edit Holding id: <span class="teal-text">{{object.id}}</span></h2>
+{% else %}
+<h2>Add Holding</h2>
+{% endif %}
+<!-- Leaving the action empty makes the form post to the same url used to display it -->
+<form action="" method="post">
+  <!-- Django requires the following for security purposes -->
+  {% csrf_token %}
+  <table>
+    <!-- Render the inputs inside of <tr>s & <td>s -->
+    {{ form.as_table }}
+  </table>
+  <input type="submit" value="Submit" class="btn-small" />
+</form>
+<script>
+    var dateEl = document.getElementById('id_date');
+    M.Datepicker.init(dateEl, {
+      format: 'yyyy-mm-dd',
+      defaultDate: new Date(),
+      setDefaultDate: true,
+      autoClose: true
+    });
+    var selectEla = document.getElementById('id_user_coin');
+    M.FormSelect.init(selectEla);
+    var selectElb = document.getElementById('id_exchange');
+    M.FormSelect.init(selectElb);
+    var selectElc = document.getElementById('id_wallet');
+    M.FormSelect.init(selectElc);
+    var selectEld = document.getElementById('id_location');
+    M.FormSelect.init(selectEld); 
+    var selectEle = document.getElementById('id_exchange');
+    M.FormSelect.init(selectEle);
+    var selectElf = document.getElementById('id_self_custody');
+    M.FormSelect.init(selectElf);
+</script>
+{% endblock %}
+
+{% comment %} TODO: FINISH ADDING THE REST OF THE HOLDING VALUES LISTS AND CREATE PATH AND VIEW {% endcomment %}

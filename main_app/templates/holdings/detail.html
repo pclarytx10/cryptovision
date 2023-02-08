@@ -29,7 +29,7 @@
             <p> Notes: {{ holding.notes }} </p>
         </div>
         <div class="col s4 card-action">
-            {% comment %} <a href="{% url 'holdings_update' holding.id %}">Edit</a> {% endcomment %}
+            <a href="{% url 'holdings_update' holding.id %}">Edit</a>
             <a href="{% url 'holdings_delete' holding.id %}">Delete</a>
         </div> 
     </div>

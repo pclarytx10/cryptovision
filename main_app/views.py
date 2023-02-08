@@ -88,6 +88,12 @@ def holdings_detail(request, holding_id):
     holding = Holding.objects.get(id=holding_id)
     return render(request, 'holdings/detail.html', { 'holding': holding })
 
+# Define the holdings update view
+class HoldingUpdate(LoginRequiredMixin, UpdateView):
+    model = Holding
+    fields = '__all__'
+    success_url = '/user_coins/'
+
 # Define the holdings delete view
 class HoldingDelete(LoginRequiredMixin, DeleteView):
     model = Holding
