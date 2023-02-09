@@ -76,10 +76,14 @@ def user_coins_index(request):
 @login_required
 def user_coins_detail(request, user_coin_id):
     user_coin = User_Coin.objects.get(id=user_coin_id)
+    holding = Holding.objects.filter(user_coin_id=user_coin_id)
+    exchange_coins = Holding.objects.filter(id__in = holding.all().values_list('id'))
+    # print(exchange_coins)
     # instantiate HoldingForm to be rendered in the template
     holding_form = HoldingForm()
     return render(request, 'user_coins/detail.html', { 
         'user_coin': user_coin,
+        'exchange_coins': exchange_coins,
         'holding_form': holding_form
     })
 # Define the holdings detail view
@@ -138,7 +142,7 @@ class User_CoinCreate(LoginRequiredMixin, CreateView):
 # Define the user coins update view
 class User_CoinUpdate(LoginRequiredMixin, UpdateView):
     model = User_Coin
-    fields = ('coin', 'coin_holdings', 'notes','status')
+    fields = ('status', 'coin_holdings', 'notes')
     success_url = '/user_coins/'
 
 # Define the user coins delete view
