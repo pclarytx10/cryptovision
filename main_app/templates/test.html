@@ -4,8 +4,20 @@
     <hr />
     <p>This is a page for testing query output.</p>
 
-    {% for item in items %} 
-        <p>{{ item.id }}</p> 
-    {% endfor %}
+    <p>Single Item: {{ item }}</p>
+    <p>Coin: {{ item.coin }}</p>
+    <p>Current Price: {{ item.coin.coin_usd }}</p>
+    {% comment %} {% for item in exchange_coins %} {% endcomment %}
+    {% comment %} {% for item in items %} 
+        <p>{{ item.user_coin }}: {{ item.get_location_display }}</p> 
+    {% endfor %} {% endcomment %}
+
+    {% comment %} <p>Exchange Coins:</p>
+    {% for item in exchange_coins %} 
+    <p>{{ item.user_coin }}: {{ item.get_location_display }}</p> 
+    {% endfor %} {% endcomment %}
+
+    {% comment %} <p>Count: {{ count }}</p>
+    <p>Total_Quantity: {{ sum.total_quantity }}</p> {% endcomment %}
 
 {% endblock %}

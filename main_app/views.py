@@ -1,8 +1,9 @@
+from .forms import HoldingForm
+from .models import Coin, User_Coin, Holding
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .models import Coin, User_Coin, Holding
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .forms import HoldingForm
+from django.db.models import Avg, Count, Min, Sum
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 # Import login_required to protect def views
@@ -11,11 +12,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
-# Test view for testing query output
-def test(request):
-    queryset = User_Coin.objects.all().order_by('id')
-    return render(request, 'test.html', { 'items': queryset })
-
 # Define the home view
 def home(request):
   return render(request, 'home.html')
@@ -82,15 +78,26 @@ def user_coins_index(request):
 def user_coins_detail(request, user_coin_id):
     user_coin = User_Coin.objects.get(id=user_coin_id)
     holding = Holding.objects.filter(user_coin_id=user_coin_id)
-    exchange_coins = Holding.objects.filter(id__in = holding.all().values_list('id'))
-    # print(exchange_coins)
+    # QuerySet for each holding type
+    exchange_holdings = holding.filter(location = 'E')
+    wallet_holdings = holding.filter(location = 'W')
+    other_holdings = holding.filter(location = 'O')
     # instantiate HoldingForm to be rendered in the template
     holding_form = HoldingForm()
+    count = holding.count()
+    sum = holding.aggregate(total_quantity=Sum('quantity'))
+    ttl_value = sum.get('total_quantity') * user_coin.coin.coin_usd 
     return render(request, 'user_coins/detail.html', { 
         'user_coin': user_coin,
-        'exchange_coins': exchange_coins,
-        'holding_form': holding_form
+        'exchange_holdings': exchange_holdings,
+        'wallet_holdings': wallet_holdings,
+        'other_holdings': other_holdings,
+        'holding_form': holding_form,
+        'count': count,
+        'sum': sum,
+        'ttl_value': ttl_value
     })
+    
 # Define the holdings detail view
 @login_required
 def holdings_detail(request, holding_id):
@@ -175,3 +182,15 @@ def signup(request):
   form = UserCreationForm()
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
+
+
+# Test view for testing query output
+def test(request):
+    query = User_Coin.objects.get(id='1')
+    # queryset = Holding.objects.filter(user_coin_id='1')
+    return render(request, 'test.html', { 
+        # 'items': queryset,
+        'item': query
+        # 'exchange_coins': exchange_holdings,
+    })
+    

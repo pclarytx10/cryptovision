@@ -10,7 +10,9 @@
     </div> 
     <div class="col s6">
       <p>Status: {{ user_coin.get_status_display }}</p>
-      <p>Holdings: {{ user_coin.coin_holdings }}</p>
+      <p>Number of Holdings: {{ count }}</p>
+      <p>Total Quantity: {{ sum.total_quantity }}</p>
+      <p>Total Value(USD): {{ ttl_value }}</p> 
     </div>
     <div class="col s6">
       <p>CoinID: {{ user_coin.coin_id }}</p>
@@ -43,8 +45,7 @@
               </tr>
             </thead>
           <tbody>
-            {% for holding in user_coin.holding_set.all %}
-              {% if holding.get_location_display == 'Exchange' %}            
+            {% for holding in exchange_holdings %}
                 <tr>
                     <td>{{ holding.get_exchange_display }}</td>
                     <td>{{ holding.get_self_custody_display }}</td>
@@ -53,7 +54,6 @@
                     <td>{{ holding.date }}</td>
                     <td><a class="blue-text text-darken-4" href="{% url 'holdings_detail' holding.id %}">View</a></td>
                 </tr>
-              {% endif %}
             {% endfor %}
           </tbody>
         </table>
@@ -73,8 +73,7 @@
               </tr>
             </thead>
           <tbody>
-            {% for holding in user_coin.holding_set.all %}
-              {% if holding.get_location_display == 'Wallet' %}            
+            {% for holding in wallet_holdings %}
                 <tr>
                     <td>{{ holding.get_wallet_display }}</td>
                     <td>{{ holding.get_self_custody_display }}</td>
@@ -83,7 +82,6 @@
                     <td>{{ holding.date }}</td>
                     <td><a class="blue-text text-darken-4" href="{% url 'holdings_detail' holding.id %}">View</a></td>
                 </tr>
-              {% endif %}
             {% endfor %}
           </tbody>
         </table>
@@ -103,8 +101,7 @@
               </tr>
             </thead>
           <tbody>
-            {% for holding in user_coin.holding_set.all %}
-              {% if holding.get_location_display == 'Other' or holding.get_exchange_display == 'Other' or holding.get_wallet_display == 'Other' %}   
+            {% for holding in other_holdings %}
                 <tr>
                     <td>{{ holding.location_name }}</td>
                     <td>{{ holding.get_self_custody_display }}</td>
@@ -113,7 +110,6 @@
                     <td>{{ holding.date }}</td>
                     <td><a class="blue-text text-darken-4" href="{% url 'holdings_detail' holding.id %}">View</a></td>
                 </tr>
-              {% endif %}
             {% endfor %}
           </tbody>
         </table>
