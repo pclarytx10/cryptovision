@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-
+{% load humanize %}
 
 <div class="card form-card">
     <div class="row">
@@ -15,7 +15,7 @@
             {% comment %} <h2> {{ coin.name }} </h2> {% endcomment %}
             <div class="col s8">
                 <p> Symbol: {{ coin.coin_symbol }} </p>
-                <p> Price: ${{ coin.coin_usd|stringformat:'1.2f' }} </p>
+                <p> Price: ${{ coin.coin_usd|floatformat:2|intcomma }} </p>
             </div>
             <div class="col s4">
                 <img class="detail-img" src="{{ coin.coin_image }}" alt="{{ coin.coin_name }}" class="img-fluid">

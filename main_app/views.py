@@ -197,7 +197,7 @@ def test(request):
         total_value = Sum('holding__quantity') * F('coin__coin_usd')
         ).select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
    
-    print(user_coins[0].__dict__)
+    # print(user_coins[0].__dict__)
     # print(user_coins[0].coin.__dict__)
     
     return render(request, 'test.html', { 'items': user_coins })

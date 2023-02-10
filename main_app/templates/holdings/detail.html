@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% block content %}
+{% load humanize %}
 
 <div class="card form-card">
     <div class="row">
@@ -30,7 +31,7 @@
             <div class="col s6">
                 <p>Date: {{ holding.date }}</p>
                 <p>Quantity: {{ holding.quantity }}</p>
-                <p>Cost Basis: ${{ holding.cost_basis|stringformat:'1.2f' }}</p>
+                <p>Cost Basis: ${{ holding.cost_basis|floatformat:2|intcomma }}</p>
             </div>
             <div class="col s12">
                 <p> Notes: {{ holding.notes }} </p>
