@@ -4,13 +4,11 @@
     <hr />
     <p>This is a page for testing query output.</p>
 
-    <p>Single Item: {{ item }}</p>
-    <p>Coin: {{ item.coin }}</p>
-    <p>Current Price: {{ item.coin.coin_usd }}</p>
-    {% comment %} {% for item in exchange_coins %} {% endcomment %}
-    {% comment %} {% for item in items %} 
-        <p>{{ item.user_coin }}: {{ item.get_location_display }}</p> 
-    {% endfor %} {% endcomment %}
+    {% comment %} <p>Single Item: {{ item }}</p> {% endcomment %}
+
+    {% for item in items %} 
+        <p>{{ item }}: </p> 
+    {% endfor %} 
 
     {% comment %} <p>Exchange Coins:</p>
     {% for item in exchange_coins %} 

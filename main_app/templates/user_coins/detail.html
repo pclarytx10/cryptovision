@@ -10,9 +10,9 @@
     </div> 
     <div class="col s6">
       <p>Status: {{ user_coin.get_status_display }}</p>
-      <p>Number of Holdings: {{ count }}</p>
-      <p>Total Quantity: {{ sum.total_quantity }}</p>
-      <p>Total Value(USD): {{ ttl_value }}</p> 
+      <p>Number of Holdings: {{ hold_values.count }}</p>
+      <p>Total Quantity: {{ hold_values.total_quantity }}</p>
+      <p>Total Value(USD): ${{ ttl_value|stringformat:"1.2f" }}</p> 
     </div>
     <div class="col s6">
       <p>CoinID: {{ user_coin.coin_id }}</p>
@@ -50,7 +50,7 @@
                     <td>{{ holding.get_exchange_display }}</td>
                     <td>{{ holding.get_self_custody_display }}</td>
                     <td>{{ holding.quantity }}</td>
-                    <td>{{ holding.cost_basis }}</td>
+                    <td>${{ holding.cost_basis|stringformat:"1.2f" }}</td>
                     <td>{{ holding.date }}</td>
                     <td><a class="blue-text text-darken-4" href="{% url 'holdings_detail' holding.id %}">View</a></td>
                 </tr>
@@ -78,7 +78,7 @@
                     <td>{{ holding.get_wallet_display }}</td>
                     <td>{{ holding.get_self_custody_display }}</td>
                     <td>{{ holding.quantity }}</td>
-                    <td>{{ holding.cost_basis }}</td>
+                    <td>${{ holding.cost_basis|stringformat:"1.2f" }}</td>
                     <td>{{ holding.date }}</td>
                     <td><a class="blue-text text-darken-4" href="{% url 'holdings_detail' holding.id %}">View</a></td>
                 </tr>
@@ -106,7 +106,7 @@
                     <td>{{ holding.location_name }}</td>
                     <td>{{ holding.get_self_custody_display }}</td>
                     <td>{{ holding.quantity }}</td>
-                    <td>{{ holding.cost_basis }}</td>
+                    <td>${{ holding.cost_basis|stringformat:"1.2f" }}</td>
                     <td>{{ holding.date }}</td>
                     <td><a class="blue-text text-darken-4" href="{% url 'holdings_detail' holding.id %}">View</a></td>
                 </tr>

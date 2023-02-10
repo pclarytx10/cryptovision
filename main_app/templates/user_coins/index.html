@@ -7,47 +7,25 @@
           <thead>
             <tr>
                 <th>Name</th>
+                <th>Current Price</th>
                 <th>Status</th>
-                <th>Notes</th>
+                <th>Amount</th>
+                <th>Total Value</th>
             </tr>
           </thead>
           <tbody>
-            {% for user_coin in user_coins  %}            
-            <tr>
-                <td><img class="tbl-img" src="{{ user_coin.coin.coin_image }}" alt="coin image"> <span>{{ user_coin.coin.coin_name }}</span></td>
-                <td>{{ user_coin.get_status_display }}</td>
-                <td>{{ user_coin.coin_holdings }}</td>
-                <td>{{ user_coin.notes }}</td>
-                <td><a class="blue-text text-darken-4" href="{% url 'user_coins_detail' user_coin.id %}">View</a></td>
-            </tr>
+            {% for user_coin in user_coins  %}
+                <tr>
+                    <td><img class="tbl-img" src="{{ user_coin.coin.coin_image }}" alt="coin image"> <span>{{ user_coin.coin.coin_name }}</span></td>
+                    <td>${{  user_coin.coin.coin_usd|stringformat:'1.2f' }}</td>
+                    <td>{{ user_coin.get_status_display }}</td>
+                    <td>{{ user_coin.coin_holdings }}</td>
+                    <td>TBD...</td>
+                    <td><a class="blue-text text-darken-4" href="{% url 'user_coins_detail' user_coin.id %}">View</a></td>
+                </tr>
             {% endfor %}
           </tbody>
     </table>
 </div>
-
-{% comment %} {% for user_coin in user_coins %} {% endcomment %}
-
-{% comment %} <div class="card">
-    <a href="{% url 'user_coins_detail' user_coin.id %}"> 
-        <div class="card-content">
-            <span class="card-title">{{ user_coin.coin }}</span>
-            <div class="coin_card inf-card">
-                <div>
-                    <p>Status: {{ user_coin.get_status_display }}</p>
-                    <p>Holdings: {{ user_coin.coin_holdings }}</p>
-                    <p>Notes: {{ user_coin.notes }}</p>
-                </div>
-                <img src="{{ user_coin.coin.coin_image }}" alt="user_coin.coin">
-            </div>
-        </div>
-    </a>
-</div> {% endcomment %}
-
-{% comment %} <script>
-    var selectEl = document.getElementById('id_status');
-    M.FormSelect.init(selectEl);
-</script>
-
-{% endfor %}  {% endcomment %}
 
 {% endblock %}

@@ -3,7 +3,7 @@ from .models import Coin, User_Coin, Holding
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.db.models import Avg, Count, Min, Sum
+from django.db.models import Count, Sum, Value, F, Func 
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 # Import login_required to protect def views
@@ -23,7 +23,7 @@ def about(request):
 # Define the coins index view
 @login_required
 def coins_index(request):
-    coins = Coin.objects.all()
+    coins = Coin.objects.all().order_by('marketcap_rank')
     return render(request, 'coins/index.html', { 'coins': coins })
 
 # Define the coins detail view
@@ -66,11 +66,9 @@ class CoinDelete(LoginRequiredMixin, DeleteView):
 # Define the user coins index view
 @login_required
 def user_coins_index(request):
-    user_coins = User_Coin.objects.filter(user=request.user)
-    coins = Coin.objects.all()
+    user_coins = User_Coin.objects.select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
     return render(request, 'user_coins/index.html', { 
         'user_coins': user_coins,
-        'coins': coins 
     })
 
 # Define the user coins detail view
@@ -84,17 +82,16 @@ def user_coins_detail(request, user_coin_id):
     other_holdings = holding.filter(location = 'O')
     # instantiate HoldingForm to be rendered in the template
     holding_form = HoldingForm()
-    count = holding.count()
-    sum = holding.aggregate(total_quantity=Sum('quantity'))
-    ttl_value = sum.get('total_quantity') * user_coin.coin.coin_usd 
+    # Count the number of holdings and get the total quantity
+    hold_values = holding.aggregate(count=Count('id'), total_quantity=Sum('quantity'))
+    ttl_value = hold_values.get('total_quantity') * user_coin.coin.coin_usd 
     return render(request, 'user_coins/detail.html', { 
         'user_coin': user_coin,
         'exchange_holdings': exchange_holdings,
         'wallet_holdings': wallet_holdings,
         'other_holdings': other_holdings,
         'holding_form': holding_form,
-        'count': count,
-        'sum': sum,
+        'hold_values': hold_values,
         'ttl_value': ttl_value
     })
     
@@ -186,11 +183,10 @@ def signup(request):
 
 # Test view for testing query output
 def test(request):
-    query = User_Coin.objects.get(id='1')
-    # queryset = Holding.objects.filter(user_coin_id='1')
-    return render(request, 'test.html', { 
-        # 'items': queryset,
-        'item': query
-        # 'exchange_coins': exchange_holdings,
-    })
+    # user_coins = User_Coin.objects.select_related('coin').all()
+    user_coins = User_Coin.objects.select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
+    print(user_coins[0].__dict__)
+    # print(user_coins[0].coin.__dict__)
+    
+    return render(request, 'test.html', { 'items': user_coins })
     
