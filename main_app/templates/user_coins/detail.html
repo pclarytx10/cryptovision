@@ -4,10 +4,11 @@
 <div class="card" style="margin-top: 3rem;">
     <div class="row">
       <div class="col s11">
-        <h3> <img src="{{ user_coin.coin.coin_image }}" alt="{{ user_coin.coin }}"</img> {{ user_coin.coin }} Details</h3>
+        <h3> <img src="{{ user_coin.coin.coin_image }}" alt="{{ user_coin.coin }}"</img> My {{ user_coin.coin }} </h3>
     </div>
     <div class="col s1"> 
         <a href="{% url 'user_coins_index' %}"><i class="small material-icons blue-text text-darken-3">fast_rewind</i></a>
+        <a class="blue-text text-darken-3" href="{% url 'detail' user_coin.coin.id %}"><i class="small material-icons blue-text text-darken-3">description</i></a>
     </div> 
     <div class="col s6">
       <p>Status: {{ user_coin.get_status_display }}</p>

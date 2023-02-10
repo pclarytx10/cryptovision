@@ -8,9 +8,9 @@
 
     {% for item in items %} 
         <p>{{ item }}: ${{ item.coin.coin_usd|floatformat:2|intcomma }}</p> 
-        <p>Quantity: {{ item.total_quantity }}</p>
-        <p>Value: ${{ item.total_value|floatformat:2|intcomma }}</p>
-        <p>Test Value: ${{ item.total_value|floatformat:2|intcomma }}</p>
+        {% comment %} <p>Quantity: {{ item.total_quantity }}</p> {% endcomment %}
+        {% comment %} <p>Value: ${{ item.total_value|floatformat:2|intcomma }}</p> {% endcomment %}
+        <p>Test Value: {{ item.coin.id }}</p>
 
     {% endfor %} 
 
