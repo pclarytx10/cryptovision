@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+
+<h3>Add a Coin from the CoinGecko API</h3>
+<hr />
+
+<p>Item Count: {{ coins|length }}</p>
+<div class="row">
+   <div class="card">
+        <table class="striped">
+              <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Symbol</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for coin in coins  %}
+                    <tr>
+                        <td>{{ coin.id }}</td>
+                        <td>{{ coin.name }}</td>
+                        <td>{{ coin.symbol }}</td> 
+                        {% comment %} <td><a class="blue-text text-darken-4" href="{% url 'user_coins_detail' user_coin.id %}">View</a></td> {% endcomment %}
+                    </tr>
+                {% endfor %}
+              </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,5 +1,7 @@
 from .forms import HoldingForm
 from .models import Coin, User_Coin, Holding
+import requests
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -11,6 +13,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+# Coingecko API
+apiRoot ="https://api.coingecko.com/api/v3/"
+# API Methods
+global_method = "global" # Get cc global data
+getList = 'coins/list' # List of all supported cc, cache for later queries
+getCoin = 'coins/' # Pull coin info add coin id to string as input
+    
 
 # Create your views here.
 # Define the home view
@@ -26,6 +36,18 @@ def about(request):
 def coins_index(request):
     coins = Coin.objects.all().order_by('marketcap_rank')
     return render(request, 'coins/index.html', { 'coins': coins })
+
+@login_required
+def coins_search(request):
+    # Grab the list of coins from the CoinGecko API
+    url = apiRoot + getList    
+    try:
+        response = requests.get(url)
+        data = response.json()
+    except requests.exceptions.RequestException as e:
+        return HttpResponse("Error: " + str(e), status=500) 
+        
+    return render(request, 'coins/search.html', { 'coins': data })
 
 # Define the coins detail view
 @login_required
@@ -191,14 +213,24 @@ def signup(request):
 
 # Test view for testing query output
 def test(request):
+    # Grab the list of coins from the CoinGecko API
+    url = apiRoot + getList    
+    try:
+        response = requests.get(url)
+        data = response.json()
+    except requests.exceptions.RequestException as e:
+        return HttpResponse("Error: " + str(e), status=500) 
+        
+    return render(request, 'test.html', { 'items': data })
+     
     # user_coins = User_Coin.objects.select_related('coin').all()
-    user_coins = User_Coin.objects.annotate(
-        total_quantity = Sum('holding__quantity'),
-        total_value = Sum('holding__quantity') * F('coin__coin_usd')
-        ).select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
+    # user_coins = User_Coin.objects.annotate(
+    #     total_quantity = Sum('holding__quantity'),
+    #     total_value = Sum('holding__quantity') * F('coin__coin_usd')
+    #     ).select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
    
     # print(user_coins[0].__dict__)
     # print(user_coins[0].coin.__dict__)
     
-    return render(request, 'test.html', { 'items': user_coins })
+    # return render(request, 'test.html', { 'items': user_coins })
     
