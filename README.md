@@ -48,10 +48,10 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
 
 ### Future Enhancements:
 
-- [ ] User input form
-  - [ ] Currency Name, Symbol, CoinGeck API Key
+- [ ] Add a Coin from CoinGecko API
+  - [X] Currency Name, Symbol, CoinGeck API Key
   - [ ] Error handling and help alert
-- [ ] API query to CoinGecko
+- [ ] API query to CoinGecko for Updates
 - [ ] Recommendation Model for Coins
 - [ ] Influencer Tracking Model for Coins
 - [ ] Reporting and Analytics
