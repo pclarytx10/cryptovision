@@ -7,7 +7,8 @@
     {% comment %} <p>Single Item: {{ item }}</p> {% endcomment %}
 
     {% for item in items %} 
-        <p>{{ item }}: </p> 
+        <p>{{ item }}: ${{ item.coin.coin_usd|stringformat:'1.2f' }}</p> 
+        <p>Quantity: {{ item.total_quantity }}</p>
     {% endfor %} 
 
     {% comment %} <p>Exchange Coins:</p>

@@ -66,7 +66,7 @@ class CoinDelete(LoginRequiredMixin, DeleteView):
 # Define the user coins index view
 @login_required
 def user_coins_index(request):
-    user_coins = User_Coin.objects.select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
+    user_coins = User_Coin.objects.annotate(total_quantity=Sum('holding__quantity')).select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
     return render(request, 'user_coins/index.html', { 
         'user_coins': user_coins,
     })
@@ -84,7 +84,11 @@ def user_coins_detail(request, user_coin_id):
     holding_form = HoldingForm()
     # Count the number of holdings and get the total quantity
     hold_values = holding.aggregate(count=Count('id'), total_quantity=Sum('quantity'))
-    ttl_value = hold_values.get('total_quantity') * user_coin.coin.coin_usd 
+    if hold_values['count'] == 0:
+        ttl_value = 0
+    else:
+        ttl_value = hold_values.get('total_quantity') * user_coin.coin.coin_usd 
+        
     return render(request, 'user_coins/detail.html', { 
         'user_coin': user_coin,
         'exchange_holdings': exchange_holdings,
@@ -184,7 +188,7 @@ def signup(request):
 # Test view for testing query output
 def test(request):
     # user_coins = User_Coin.objects.select_related('coin').all()
-    user_coins = User_Coin.objects.select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
+    user_coins = User_Coin.objects.annotate(total_quantity=Sum('holding__quantity')).select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
     print(user_coins[0].__dict__)
     # print(user_coins[0].coin.__dict__)
     
