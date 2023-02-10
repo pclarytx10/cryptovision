@@ -9,6 +9,7 @@
     {% for item in items %} 
         <p>{{ item }}: ${{ item.coin.coin_usd|stringformat:'1.2f' }}</p> 
         <p>Quantity: {{ item.total_quantity }}</p>
+        <p>Value: ${{ item.total_value|stringformat:'1.2f' }}</p>
     {% endfor %} 
 
     {% comment %} <p>Exchange Coins:</p>

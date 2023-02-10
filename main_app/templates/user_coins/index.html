@@ -20,7 +20,7 @@
                     <td>${{ user_coin.coin.coin_usd|stringformat:'1.2f' }}</td>
                     <td>{{ user_coin.get_status_display }}</td>
                     <td>{{ user_coin.total_quantity|stringformat:"1.4f" }}</td>
-                    <td>TBD...</td>
+                    <td>${{ user_coin.total_value|stringformat:"1.4f" }}</td>
                     <td><a class="blue-text text-darken-4" href="{% url 'user_coins_detail' user_coin.id %}">View</a></td>
                 </tr>
             {% endfor %}

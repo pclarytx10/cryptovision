@@ -3,7 +3,8 @@ from .models import Coin, User_Coin, Holding
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.db.models import Count, Sum, Value, F, Func 
+from django.db.models import Count, Sum, Value, F, Func
+from django.db.models.functions import Coalesce 
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 # Import login_required to protect def views
@@ -66,7 +67,10 @@ class CoinDelete(LoginRequiredMixin, DeleteView):
 # Define the user coins index view
 @login_required
 def user_coins_index(request):
-    user_coins = User_Coin.objects.annotate(total_quantity=Sum('holding__quantity')).select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
+    user_coins = User_Coin.objects.annotate(
+        total_quantity=Coalesce(Sum('holding__quantity'),0.0),
+        total_value = Coalesce(Sum('holding__quantity') * F('coin__coin_usd'),0.0)
+        ).select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
     return render(request, 'user_coins/index.html', { 
         'user_coins': user_coins,
     })
@@ -188,7 +192,11 @@ def signup(request):
 # Test view for testing query output
 def test(request):
     # user_coins = User_Coin.objects.select_related('coin').all()
-    user_coins = User_Coin.objects.annotate(total_quantity=Sum('holding__quantity')).select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
+    user_coins = User_Coin.objects.annotate(
+        total_quantity = Sum('holding__quantity'),
+        total_value = Sum('holding__quantity') * F('coin__coin_usd')
+        ).select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
+   
     print(user_coins[0].__dict__)
     # print(user_coins[0].coin.__dict__)
     
