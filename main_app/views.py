@@ -11,6 +11,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
+# Test view for testing query output
+def test(request):
+    queryset = User_Coin.objects.all().order_by('id')
+    return render(request, 'test.html', { 'items': queryset })
+
 # Define the home view
 def home(request):
   return render(request, 'home.html')

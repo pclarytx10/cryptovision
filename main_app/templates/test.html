@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% block content %}
+
+    <h3>CryptoVision Test Page</h3>
+    <hr />
+    <p>This is a page for testing query output.</p>
+
+    {% for item in items %} 
+        <p>{{ item.id }}</p> 
+    {% endfor %}
+
+{% endblock %}
