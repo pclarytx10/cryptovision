@@ -129,8 +129,11 @@ def user_coins_index(request):
         total_quantity=Coalesce(Sum('holding__quantity'),0.0),
         total_value = Coalesce(Sum('holding__quantity') * F('coin__coin_usd'),0.0)
         ).select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
+    ttl_my_coins = user_coins.aggregate(totalvalue=Sum('total_value'))['totalvalue']
+    print(ttl_my_coins)
     return render(request, 'user_coins/index.html', { 
         'user_coins': user_coins,
+        'ttl_my_coins': ttl_my_coins
     })
 
 # Define the user coins detail view
