@@ -1,6 +1,6 @@
-from .forms import HoldingForm
+from .forms import HoldingForm, SearchForm
 from .models import Coin, User_Coin, Holding
-import requests
+import requests, json
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -36,18 +36,6 @@ def about(request):
 def coins_index(request):
     coins = Coin.objects.all().order_by('marketcap_rank')
     return render(request, 'coins/index.html', { 'coins': coins })
-
-@login_required
-def coins_search(request):
-    # Grab the list of coins from the CoinGecko API
-    url = apiRoot + getList    
-    try:
-        response = requests.get(url)
-        data = response.json()
-    except requests.exceptions.RequestException as e:
-        return HttpResponse("Error: " + str(e), status=500) 
-        
-    return render(request, 'coins/search.html', { 'coins': data })
 
 # Define the coins detail view
 @login_required
@@ -85,6 +73,35 @@ class CoinUpdate(LoginRequiredMixin, UpdateView):
 class CoinDelete(LoginRequiredMixin, DeleteView):
     model = Coin
     success_url = '/coins/'
+
+# Search view for the CoinGecko API
+@login_required
+def search(request):
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            query_lower = query.lower()
+            
+            # Grab the list of coins from the CoinGecko API
+            url = apiRoot + getList    
+            try:
+                response = requests.get(url)
+                data = response.json()
+                results = []
+                for coin in data:
+                    
+                    if coin['name'] == query or coin['symbol'] == query_lower or coin['id'] == query_lower:
+                        results.append(coin)
+                        print(coin['name'])
+                
+            except requests.exceptions.RequestException as e:
+                return HttpResponse("Error: " + str(e), status=404) 
+            
+            return render(request, 'coins/search_results.html', {'coins': results})
+    else:
+        form = SearchForm()
+    return render(request, 'coins/search.html', {'form': form})
 
 # Define the user coins index view
 @login_required

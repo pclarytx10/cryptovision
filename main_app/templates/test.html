@@ -4,15 +4,21 @@
     <hr />
     <p>This is a page for testing query output.</p>
 
+    <form action="{% url 'search' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Search">
+      </form>
+      
     {% comment %} <p>Single Item: {{ item }}</p> {% endcomment %}
-    <p>Item Count: {{ items|length }}</p>
-    {% for item in items %} 
+    {% comment %} <p>Item Count: {{ items|length }}</p> {% endcomment %}
+    {% comment %} {% for item in items %}  {% endcomment %}
         {% comment %} <p>{{ item }}: ${{ item.coin.coin_usd|floatformat:2|intcomma }}</p>  {% endcomment %}
         {% comment %} <p>Quantity: {{ item.total_quantity }}</p> {% endcomment %}
         {% comment %} <p>Value: ${{ item.total_value|floatformat:2|intcomma }}</p> {% endcomment %}
-        <p>Test Value: {{ item }}</p>
+        {% comment %} <p>Test Value: {{ item }}</p> {% endcomment %}
 
-    {% endfor %} 
+    {% comment %} {% endfor %}  {% endcomment %}
 
     {% comment %} <p>Exchange Coins:</p>
     {% for item in exchange_coins %} 

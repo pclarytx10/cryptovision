@@ -97,3 +97,9 @@ form {
 .del-form > a {
     margin: 1rem;
 }
+.search-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

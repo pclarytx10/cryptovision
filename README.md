@@ -49,8 +49,8 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
 ### Future Enhancements:
 
 - [ ] Add a Coin from CoinGecko API
-  - [X] Currency Name, Symbol, CoinGeck API Key
-  - [ ] Error handling and help alert
+  - [X] Search CoinGecko API for Coin
+  - [X] Display Currency Name, Symbol, CoinGeck ID
 - [ ] API query to CoinGecko for Updates
 - [ ] Recommendation Model for Coins
 - [ ] Influencer Tracking Model for Coins
