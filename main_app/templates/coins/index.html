@@ -3,6 +3,10 @@
 
 <h3>Coin List</h3>
 
+<div id="globalMC">
+  <p>Today, there are <span style="color:blue">{{ gbl_items.active_cryptocurrencies|intcomma }}</span> currencies and the global cryptocurrency market cap is <span style="color:blue">${{ gbl_items.total_market_cap.usd|floatformat:2|intcomma }}</span>. This is a <span class="report-num" style="color:blue">{{ gbl_items.market_cap_change_percentage_24h_usd|floatformat:2 }}</span>% change in the last 24 hours.</p>
+</div>
+
 <div class="card">
     <table class="striped">
           <thead>

@@ -1,6 +1,6 @@
 from .forms import HoldingForm, SearchForm
 from .models import Coin, User_Coin, Holding, Categories
-import requests, json
+import requests, html
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -20,7 +20,7 @@ apiRoot ="https://api.coingecko.com/api/v3/"
 global_method = "global" # Get cc global data
 getList = 'coins/list' # List of all supported cc, cache for later queries
 getCoin = 'coins/' # Pull coin info add coin id to string as input
-    
+getCategories = 'coins/categories/list' # List of all categories
 
 # Create your views here.
 # Define the home view
@@ -34,8 +34,19 @@ def about(request):
 # Define the coins index view
 @login_required
 def coins_index(request):
+    # Pull the global market data from the Coingecko API
+    url = apiRoot + global_method  
+
+    try:
+        response = requests.get(url)
+        glb_items = response.json()
+    except requests.exceptions.RequestException as e:
+        return HttpResponse("Error: " + str(e), status=404) 
+     
     coins = Coin.objects.all().order_by('marketcap_rank')
-    return render(request, 'coins/index.html', { 'coins': coins })
+    return render(request, 'coins/index.html', { 
+        'coins': coins,
+        'gbl_items': glb_items['data'] })
 
 # Define the coins detail view
 @login_required
@@ -225,25 +236,6 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
-
-# Test view for testing query output
-def test(request,coingecko_id):
-    # Grab coin information from the CoinGecko API
-    url = apiRoot + getCoin + coingecko_id   
-    # url = apiRoot + getCoin + 'categories/list'
-    try:
-        response = requests.get(url)
-        data = response.json()
-    except requests.exceptions.RequestException as e:
-        return HttpResponse("Error: " + str(e), status=404) 
-        
-    # return render(request, 'test.html', { 'item': data })
-    # for item in data:
-    #     new_item = Categories(category_id=item['category_id'], category_name=item['name'])
-    #     new_item.save()
-    
-    return render(request, 'test.html', { 'item': data })
-
 class API_CoinCreate(LoginRequiredMixin, CreateView):
     model = Coin
     fields = ('api_id', 'coin_name',  'coin_symbol',  'categories', 'coin_usd', 'marketcap_rank', 'coin_ath', 'coin_ath_date',  'coin_ath_percent', 'coin_change',  'coin_mcap',  'coin_atl', 'coin_atl_date',  'coin_image', 'genesis_date', 'hashing_algorithm',  'website',  'description',)
@@ -261,14 +253,26 @@ class API_CoinCreate(LoginRequiredMixin, CreateView):
             response = requests.get(url)
             data = response.json()
         except requests.exceptions.RequestException as e:
-            return HttpResponse("Error: " + str(e), status=404) 
-        print()
+            return HttpResponse("Error: " + str(e), status=404)
+         
+        # Convert the categories to a list of category ids
+        category_ids = []
+        for item in data['categories']:
+            query = Categories.objects.filter(category_name=item)
+            category_ids.append(query[0].id)
+        
+        # Test McapRank, provide default if not available
+        if data['market_cap_rank']:
+            marketcap_rank = data['market_cap_rank']
+        else:
+            marketcap_rank = 10000
+        
         initial['api_id'] = data['id']
         initial['coin_name'] = data['name']
         initial['coin_symbol'] = data['symbol'].upper()
-        # initial['categories'] = data['categories']
+        initial['categories'] = category_ids
         initial['coin_usd'] = data['market_data']['current_price']['usd']
-        initial['marketcap_rank'] = data['market_cap_rank']
+        initial['marketcap_rank'] = marketcap_rank
         initial['coin_ath'] = data['market_data']['ath']['usd']
         initial['coin_ath_date'] = data['market_data']['ath_date']['usd'][:10]
         initial['coin_ath_percent'] = data['market_data']['ath_change_percentage']['usd']
@@ -294,5 +298,21 @@ class API_CoinCreate(LoginRequiredMixin, CreateView):
         # Let the CreateView do its job as usual
         return super().form_valid(form)
     
+# Test view for testing query output
+def test(request):
+    # Pull the global market data from the Coingecko API
+    url = apiRoot + global_method  
 
+    try:
+        response = requests.get(url)
+        data = response.json()
+    except requests.exceptions.RequestException as e:
+        return HttpResponse("Error: " + str(e), status=404) 
+        
+    # return render(request, 'test.html', { 'item': data })
+    # for item in data:
+    #     new_item = Categories(category_id=item['category_id'], category_name=item['name'])
+    #     new_item.save()
+ 
+    return render(request, 'test.html', { 'items': data['data'] })
 
