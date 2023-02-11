@@ -4,28 +4,38 @@
     <hr />
     <p>This is a page for testing query output.</p>
 
-    <form action="{% url 'search' %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Search">
-      </form>
-      
-    {% comment %} <p>Single Item: {{ item }}</p> {% endcomment %}
-    {% comment %} <p>Item Count: {{ items|length }}</p> {% endcomment %}
-    {% comment %} {% for item in items %}  {% endcomment %}
+    {% comment %} {{ item.description.en|safe }} {% endcomment %}
+
+
+    <p>api_id: {{ item.id }}</p>
+    <p>coin_name: {{ item.name }}</p>
+    <p>coin_symbol: {{ item.symbol|upper }}</p>
+    <p>categories: {{ item.categories }}</p>
+    <p>coin_usd: {{ item.market_data.current_price.usd }}</p>
+    <p>marketcap_rank: {{ item.market_cap_rank }}</p>
+    <p>coin_ath: {{ item.market_data.ath.usd }}</p>
+    <p>coin_ath_date: {{ item.market_data.ath_date.usd|slice:"0:10"  }}</p>
+    <p>coin_ath_percent: {{ item.market_data.ath_change_percentage.usd }}</p>
+    <p>coin_change: {{ item.market_data.price_change_24h }}</p>
+    <p>coin_mcap: {{ item.market_data.market_cap.usd }}</p>
+    <p>coin_atl: {{ item.market_data.atl.usd }}</p>
+    <p>coin_atl_date: {{ item.market_data.atl_date.usd|slice:"0:10" }}</p>
+    <p>coin_image: {{ item.image.small }}</p>
+    <p>genesis_date: {{ item.genesis_date|slice:"0:10"  }}</p>
+    <p>hashing_algorithm: {{ item.hashing_algorithm }}</p>
+    <p>website: {{ item.links.homepage|first }}</p>
+    <p>description: {{ item.description.en|safe }}</p>
+    
+    {% comment %} <p>Single Item: {{ item.market_data }}</p> {% endcomment %}
+
+    <p>Item Count: {{ items|length }}</p>
+    {% for it in item.market_data %}  
         {% comment %} <p>{{ item }}: ${{ item.coin.coin_usd|floatformat:2|intcomma }}</p>  {% endcomment %}
         {% comment %} <p>Quantity: {{ item.total_quantity }}</p> {% endcomment %}
         {% comment %} <p>Value: ${{ item.total_value|floatformat:2|intcomma }}</p> {% endcomment %}
-        {% comment %} <p>Test Value: {{ item }}</p> {% endcomment %}
+        <p>Test Value: {{ it }}</p>
 
-    {% comment %} {% endfor %}  {% endcomment %}
+    {% endfor %} 
 
-    {% comment %} <p>Exchange Coins:</p>
-    {% for item in exchange_coins %} 
-    <p>{{ item.user_coin }}: {{ item.get_location_display }}</p> 
-    {% endfor %} {% endcomment %}
-
-    {% comment %} <p>Count: {{ count }}</p>
-    <p>Total_Quantity: {{ sum.total_quantity }}</p> {% endcomment %}
 
 {% endblock %}

@@ -3,11 +3,10 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('test/', views.test, name='test'),
+    path('test/<coingecko_id>/', views.test, name='test'),
     path('about/', views.about, name='about'),
     path('coins/', views.coins_index, name='index'),
     path('coins/search/', views.search, name='search'),
-    # path('coins/search/', views.coins_search, name='coins_search'),
     path('coins/<int:coin_id>/', views.coins_detail, name='detail'),
     path('coins/create/', views.CoinCreate.as_view(), name='coins_create'),
     path('coins/<int:pk>/update/', views.CoinUpdate.as_view(), name='coins_update'),

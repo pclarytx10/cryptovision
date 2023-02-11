@@ -1,5 +1,5 @@
 from .forms import HoldingForm, SearchForm
-from .models import Coin, User_Coin, Holding
+from .models import Coin, User_Coin, Holding, Categories
 import requests, json
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -229,25 +229,20 @@ def signup(request):
 
 
 # Test view for testing query output
-def test(request):
-    # Grab the list of coins from the CoinGecko API
-    url = apiRoot + getList    
+def test(request,coingecko_id):
+    # Grab coin information from the CoinGecko API
+    url = apiRoot + getCoin + coingecko_id   
+    # url = apiRoot + getCoin + 'categories/list'
     try:
         response = requests.get(url)
         data = response.json()
     except requests.exceptions.RequestException as e:
-        return HttpResponse("Error: " + str(e), status=500) 
+        return HttpResponse("Error: " + str(e), status=404) 
         
-    return render(request, 'test.html', { 'items': data })
-     
-    # user_coins = User_Coin.objects.select_related('coin').all()
-    # user_coins = User_Coin.objects.annotate(
-    #     total_quantity = Sum('holding__quantity'),
-    #     total_value = Sum('holding__quantity') * F('coin__coin_usd')
-    #     ).select_related('coin').filter(user=request.user).order_by('coin__marketcap_rank')
-   
-    # print(user_coins[0].__dict__)
-    # print(user_coins[0].coin.__dict__)
+    # return render(request, 'test.html', { 'item': data })
+    # for item in data:
+    #     new_item = Categories(category_id=item['category_id'], category_name=item['name'])
+    #     new_item.save()
     
-    # return render(request, 'test.html', { 'items': user_coins })
-    
+    return render(request, 'test.html', { 'item': data })
+
