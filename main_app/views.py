@@ -90,11 +90,9 @@ def search(request):
                 data = response.json()
                 results = []
                 for coin in data:
-                    
-                    if coin['name'] == query or coin['symbol'] == query_lower or coin['id'] == query_lower:
+                    if coin['name'].find(query) != -1 or coin['symbol'].find(query_lower) != -1 or coin['id'].find(query_lower) != -1:
                         results.append(coin)
-                        print(coin['name'])
-                
+                    
             except requests.exceptions.RequestException as e:
                 return HttpResponse("Error: " + str(e), status=404) 
             
@@ -245,4 +243,56 @@ def test(request,coingecko_id):
     #     new_item.save()
     
     return render(request, 'test.html', { 'item': data })
+
+class API_CoinCreate(LoginRequiredMixin, CreateView):
+    model = Coin
+    fields = ('api_id', 'coin_name',  'coin_symbol',  'categories', 'coin_usd', 'marketcap_rank', 'coin_ath', 'coin_ath_date',  'coin_ath_percent', 'coin_change',  'coin_mcap',  'coin_atl', 'coin_atl_date',  'coin_image', 'genesis_date', 'hashing_algorithm',  'website',  'description',)
+    success_url = '/coins/'
+    
+    # Initialize the form with the coin data from the API
+    # get the initial coin value for the form
+    def get_initial(self):
+        initial = super().get_initial()
+        coingecko_id = self.kwargs.get('coingecko_id')
+        
+        url = apiRoot + getCoin + coingecko_id   
+        # url = apiRoot + getCoin + 'categories/list'
+        try:
+            response = requests.get(url)
+            data = response.json()
+        except requests.exceptions.RequestException as e:
+            return HttpResponse("Error: " + str(e), status=404) 
+        print()
+        initial['api_id'] = data['id']
+        initial['coin_name'] = data['name']
+        initial['coin_symbol'] = data['symbol'].upper()
+        # initial['categories'] = data['categories']
+        initial['coin_usd'] = data['market_data']['current_price']['usd']
+        initial['marketcap_rank'] = data['market_cap_rank']
+        initial['coin_ath'] = data['market_data']['ath']['usd']
+        initial['coin_ath_date'] = data['market_data']['ath_date']['usd'][:10]
+        initial['coin_ath_percent'] = data['market_data']['ath_change_percentage']['usd']
+        initial['coin_change'] = data['market_data']['price_change_24h']
+        initial['coin_mcap'] = data['market_data']['market_cap']['usd']
+        initial['coin_atl'] = data['market_data']['atl']['usd']
+        initial['coin_atl_date'] = data['market_data']['atl_date']['usd'][:10]
+        initial['coin_image'] = data['image']['small']
+        if data['genesis_date'] == None:
+            initial['genesis_date'] = ''
+        else:
+            initial['genesis_date'] = data['genesis_date'][:10]
+        initial['hashing_algorithm'] = data['hashing_algorithm']
+        initial['website'] = data['links']['homepage'][0]
+        initial['description'] = data['description']['en']
+        return initial
+    
+    # This inherited method is called when a
+    # valid coin form is being submitted
+    def form_valid(self, form):
+        # Assign the logged in user (self.request.user)
+        form.instance.user = self.request.user  # form.instance is the coin
+        # Let the CreateView do its job as usual
+        return super().form_valid(form)
+    
+
 

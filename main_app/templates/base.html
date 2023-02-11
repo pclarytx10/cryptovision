@@ -35,7 +35,7 @@
     <header class="navbar-fixed">
       <ul id="dropdown1" class="dropdown-content">
         <li><a href="/coins">All Coins</a></li>
-        <li><a href="{% url 'coins_create' %}">Add Coin</a></li>
+        {% comment %} <li><a href="{% url 'coins_create' %}">Add Coin</a></li> {% endcomment %}
         <li><a href="{% url 'search' %}">Search API</a></li>
         {% comment %} <li class="divider"></li> {% endcomment %}
       </ul>

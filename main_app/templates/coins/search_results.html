@@ -28,8 +28,10 @@
                     <tr>
                         <td>{{ coin.id }}</td>
                         <td>{{ coin.name }}</td>
-                        <td>{{ coin.symbol }}</td> 
-                        {% comment %} <td><a class="blue-text text-darken-4" href="{% url 'user_coins_detail' user_coin.id %}">Add</a></td> {% endcomment %}
+                        <td>{{ coin.symbol }}</td>
+                        <td>
+                          <a href="{% url 'coins_create' coin.id %}"><i class="small material-icons blue-text text-darken-2">library_add</i></a>
+                        </td> 
                     </tr>
                 {% endfor %}
               </tbody>
