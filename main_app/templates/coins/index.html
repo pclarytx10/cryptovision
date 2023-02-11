@@ -14,8 +14,10 @@
                 <th>Name</th>
                 <th>Symbol</th>
                 <th>Price</th>
-                {% comment %} <th>24hr%</th> {% endcomment %}
-                <th>MC Rank</th>
+                <th>24hr%</th>
+                <th>MC%</th>
+                <th>ATH</th>
+                <th>ATH%</th>
             </tr>
           </thead>
           <tbody>
@@ -24,8 +26,10 @@
                 <td><img class="tbl-img" src="{{ coin.coin_image }}" alt="coin image"> <span>{{ coin.coin_name }}</span></td>
                 <td>{{ coin.coin_symbol }}</td>
                 <td>${{ coin.coin_usd|floatformat:2|intcomma }}</td>
-                {% comment %} <td>{{ coin.coin_change }}</td> {% endcomment %}
-                <td>{{ coin.marketcap_rank }}</td>
+                <td class="report-num">{{ coin.coin_change|floatformat:1 }}%</td>
+                <td>{{ coin.mcap_percentage|floatformat:1 }}%</td>
+                <td>{{ coin.coin_ath }}</td>
+                <td class="report-num">{{ coin.coin_ath_percent|floatformat:1 }}%</td>
                 <td><a class="blue-text text-darken-4" href="{% url 'detail' coin.id %}">View</a></td>
             </tr>
             {% endfor %}
@@ -33,4 +37,12 @@
     </table>
 </div>
 
+<script>
+    // Change color of report number based on value
+    if($(`.report-num`)[0].outerText < 0) {
+        $(`.report-num`).css('color', 'red')
+    } else {
+        $(`.report-num`).css('color', 'green')
+    }
+</script>
 {% endblock %}

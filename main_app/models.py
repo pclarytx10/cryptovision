@@ -11,7 +11,7 @@ class Coin(models.Model):
     categories = models.ManyToManyField('Categories', blank=True)
     coin_usd = models.FloatField(default=0.00)
     # Pull en localization via API
-    description = models.TextField(max_length=5000, blank=True) 
+    description = models.TextField(max_length=10000, blank=True) 
     hashing_algorithm = models.CharField(max_length=50, blank=True)
     genesis_date = models.DateField(blank=True, null=True)
     # Links is a one to many. Defer to another model. (homepage, blockchain site, etc.)

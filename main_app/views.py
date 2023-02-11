@@ -39,14 +39,24 @@ def coins_index(request):
 
     try:
         response = requests.get(url)
-        glb_items = response.json()
+        data = response.json()
     except requests.exceptions.RequestException as e:
         return HttpResponse("Error: " + str(e), status=404) 
-     
-    coins = Coin.objects.all().order_by('marketcap_rank')
+    
+    # coin.coin_mcap|div:gbl_items.total_market_cap.usd|mul:100|floatformat:1
+    gbl_items = data['data'] 
+    
+    gbl_marketcap = gbl_items['total_market_cap']['usd']
+    
+    coins = Coin.objects.all()
+    # Calculate the market cap percentage
+    coins = Coin.objects.annotate(
+        mcap_percentage= F('coin_mcap') / Value(gbl_marketcap) * 100 )
+    
+    coins = coins.order_by('-mcap_percentage')
     return render(request, 'coins/index.html', { 
         'coins': coins,
-        'gbl_items': glb_items['data'] })
+        'gbl_items': gbl_items })
 
 # Define the coins detail view
 @login_required
@@ -260,6 +270,7 @@ class API_CoinCreate(LoginRequiredMixin, CreateView):
         for item in data['categories']:
             query = Categories.objects.filter(category_name=item)
             category_ids.append(query[0].id)
+            # print(item, query) # Use to troubleshoot Index Error in future
         
         # Test McapRank, provide default if not available
         if data['market_cap_rank']:
@@ -308,11 +319,19 @@ def test(request):
         data = response.json()
     except requests.exceptions.RequestException as e:
         return HttpResponse("Error: " + str(e), status=404) 
-        
-    # return render(request, 'test.html', { 'item': data })
-    # for item in data:
-    #     new_item = Categories(category_id=item['category_id'], category_name=item['name'])
-    #     new_item.save()
- 
-    return render(request, 'test.html', { 'items': data['data'] })
+    
+    gbl_items = data['data'] 
+    
+    gbl_marketcap = gbl_items['total_market_cap']['usd']
+    
+    coins = Coin.objects.all().order_by('marketcap_rank')
+    # Calculate the market cap percentage
+    coins = Coin.objects.annotate(
+        mcap_percentage= F('coin_mcap') / Value(gbl_marketcap) * 100 ) #F('coin_mcap'))# * F('gbl_items__total_market_cap.usd' * 100),0.0))
+    
+    # print(coins.mcap_percentage)
+
+    return render(request, 'test.html', { 
+        'items': coins,
+        'gbl_items': gbl_items })
 
