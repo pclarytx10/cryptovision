@@ -220,7 +220,7 @@ class User_CoinCreate(LoginRequiredMixin, CreateView):
 # Define the user coins update view
 class User_CoinUpdate(LoginRequiredMixin, UpdateView):
     model = User_Coin
-    fields = ('status', 'coin_holdings', 'notes')
+    fields = ('status', 'notes')
     success_url = '/user_coins/'
 
 # Define the user coins delete view

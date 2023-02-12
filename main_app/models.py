@@ -28,6 +28,7 @@ class Coin(models.Model):
     # coin_markets - future feature
     # coin_image == image.small
     coin_image = models.CharField(max_length=250, blank=True)
+    last_updated = models.DateField(blank=True, null=True)
 
     class Meta:
         ordering = ('coin_name',)
@@ -114,6 +115,37 @@ class Holding(models.Model):
 
     def __str__(self) -> str:
         return f'{self.user_coin.user.username} {self.user_coin.coin.coin_name} {self.date}'
+
+    class Meta:
+        ordering = ['-date']
+        
+class Recommendation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    coin = models.ForeignKey(Coin, on_delete=models.CASCADE)
+    recommendation = models.TextField(max_length=500, blank=True)
+    buy_up_to = models.FloatField(default=0.00)
+    origin = models.CharField(max_length=50, blank=True)
+    date = models.DateField('Recommendation Date', auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f'{self.user.username} {self.coin.coin_name}'
+
+class Note(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    Recommendation = models.ForeignKey(Recommendation, on_delete=models.CASCADE)
+    date = models.DateField('Note Date')
+    title = models.CharField(max_length=50, blank=True)
+    note = models.TextField(max_length=2500, blank=True)
+    RECOMMENDATION = (
+        ('B', 'Buy'),
+        ('S', 'Self'),
+        ('H', 'Hold'),
+        ('O', 'Other')
+    )
+    recommendation = models.TextField(max_length=1, choices=RECOMMENDATION, default=RECOMMENDATION[0][0])
+
+    def __str__(self) -> str:
+        return f'{self.Recommendation} {self.recommendation} {self.date}'
 
     class Meta:
         ordering = ['-date']
