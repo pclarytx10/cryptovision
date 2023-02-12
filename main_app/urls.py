@@ -21,5 +21,9 @@ urlpatterns = [
     path('holdings/<int:holding_id>/', views.holdings_detail, name='holdings_detail'),
     path('holdings/<int:pk>/update/', views.HoldingUpdate.as_view(), name='holdings_update'),
     path('holdings/<int:pk>/delete/', views.HoldingDelete.as_view(), name='holdings_delete'),
+    path('recommendations/<int:recommendation_id>/', views.recommendations_detail, name='recommendations_detail'),
+    # path('recommendations/create/', views.RecommendationCreate.as_view(), name='recommendations_create'),
+    path('recommendations/<int:pk>/update/', views.RecommendationUpdate.as_view(), name='recommendations_update'),  
+    path('recommendations/<int:pk>/delete/', views.RecommendationDelete.as_view(), name='recommendations_delete'),
     path('accounts/signup/', views.signup, name='signup'),  
 ]

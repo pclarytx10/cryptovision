@@ -4,41 +4,28 @@
 <div class="card form-card">
     <div class="row">
         <div class="col s11"> 
-            <h3> Holding Detail </h3>
+            <h3> Recommendation Detail </h3>
             <hr>
         </div>
         <div class="col s1">
-            <a href="{% url 'user_coins_detail' holding.user_coin.id %}"><i class="small material-icons blue-text text-darken-3">fast_rewind</i></a>
+            <a href="{% url 'detail' recommendation.coin.id %}"><i class="small material-icons blue-text text-darken-3">fast_rewind</i></a>
         </div>
-        
     </div>
     <div class="row">
         <div class="col s12">
-            <div class="col s6">
-                <p>Location: {{ holding.get_location_display }}</p>
-                {% if holding.get_location_display == 'Exchange' %}
-                    <p>Exchange: {{ holding.get_exchange_display }}</p>
-                {% elif holding.get_location_display == 'Wallet' %}
-                    <p>Wallet: {{ holding.get_wallet_display }}</p>
-                {% else %}
-                    <p>Location Name: {{ holding.location_name }}</p>
-                {% endif %}
-                {% if holding.get_exchange_display == 'Other' or holding.get_wallet_display == 'Other' %}
-                    <p>Location Name: {{ holding.location_name }}</p>
-                {% endif %}
-                <p>Self Custody: {{ holding.get_self_custody_display }}</p>
-            </div>
-            <div class="col s6">
-                <p>Date: {{ holding.date }}</p>
-                <p>Quantity: {{ holding.quantity }}</p>
-                <p>Cost Basis: ${{ holding.cost_basis|floatformat:2|intcomma }}</p>
-            </div>
             <div class="col s12">
-                <p> Notes: {{ holding.notes }} </p>
+                {% comment %} <p>Date: {{ recommendatioin.date }}</p> {% endcomment %}
+                <p>Coin: {{ recommendation.coin }}</p>
+                <p>Buy Up to Price: ${{ recommendation.buy_up_to|floatformat:2|intcomma }}</p>
+                <p>Recommendation: {{ recommendation.recommendation|safe }}</p>
+                <p>Origin: {{ recommendation.origin }}</p>
             </div>
-            <div class="col s4 card-action">
-                <a href="{% url 'holdings_update' holding.id %}">Edit</a>
-                <a href="{% url 'holdings_delete' holding.id %}">Delete</a>
+            {% comment %} <div class="col s12">
+                <p> Notes: {{ holding.notes }} </p>
+            </div> {% endcomment %}
+            <div class="col s12 card-action">           
+                <a href="{% url 'recommendations_update' recommendation.id %}">Edit</a>
+                <a href="{% url 'recommendations_delete' recommendation.id %}">Delete</a>
             </div> 
         </div>
     </div>

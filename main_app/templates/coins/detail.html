@@ -34,6 +34,23 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col s12">
+            <h3>Recommendations</h3>
+            <hr>
+            <div class="col s12">
+                {% for rec in recommendations %}
+                    <div class="col s12">
+                        <p>Origin: {{ rec.origin }}</p>
+                        <p>Date: {{ rec.date|date:"M d, Y" }}</p>
+                        <p>Buy up to Price: ${{ rec.buy_up_to|floatformat:2|intcomma }}</p>
+                        <p>Recommendation: {{ rec.recommendation|safe }}</p>
+                        <a class="blue-text text-darken-4" href="{% url 'recommendations_detail' rec.id %}">View</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
 
 {%endblock%}

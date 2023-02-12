@@ -42,8 +42,8 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
     - [X] User ability to add, edit, and delete User Coins
   - [X] Holdings - User Specific Holding Information, Sub of User Coin
     - [X] User ability to add, edit, and delete Holding Items
-  - [ ] Recommendation - User Specific Recommendation Information
-    - [ ] User ability to add, edit, and delete Recommendations
+  - [X] Recommendation - User Specific Recommendation Information
+    - [X] User ability to add, edit, and delete Recommendations
   - [ ] Notes - Field for information over time
     - [ ] User ability to add, edit, and delete notes
 - [X] Add a Coin from CoinGecko API

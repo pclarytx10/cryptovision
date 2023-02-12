@@ -1,5 +1,5 @@
 from .forms import HoldingForm, SearchForm
-from .models import Coin, User_Coin, Holding, Categories
+from .models import Coin, User_Coin, Holding, Categories, Recommendation, Note
 import requests, html
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -62,12 +62,13 @@ def coins_index(request):
 @login_required
 def coins_detail(request, coin_id):
     coin = Coin.objects.get(id=coin_id)
+    recommendations = Recommendation.objects.filter(coin=coin_id)
+
     create_user_coin_url = reverse('user_coins_create', kwargs={'coin_id': coin_id})
-    # return render(request, 'coins/detail.html', { 
-    #     'coin': coin
-    # })
+    
     return render(request, 'coins/detail.html', {
-        'coin': coin, 
+        'coin': coin,
+        'recommendations': recommendations,
         'create_user_coin_url': create_user_coin_url
     })
 
@@ -194,6 +195,37 @@ def add_holding(request, user_coin_id):
         new_holding.user_coin_id = user_coin_id
         new_holding.save()
     return redirect('user_coins_detail', user_coin_id=user_coin_id)
+
+# Define the recommendation detail view
+@login_required
+def recommendations_detail(request, recommendation_id):
+    recommendation = Recommendation.objects.get(id=recommendation_id)
+    return render(request, 'recommendations/detail.html', { 'recommendation': recommendation })
+
+# Define the recommendatio update view
+class RecommendationUpdate(LoginRequiredMixin, UpdateView):
+    model = Recommendation
+    fields = ['origin', 'buy_up_to', 'recommendation','buy_up_to']
+    success_url = '/coins/'
+
+# Define the recommendatio delete view
+class RecommendationDelete(LoginRequiredMixin, DeleteView):
+    model = Recommendation
+    success_url = '/coins/'
+
+# Define adding a hodling to a user coin 
+# @login_required
+# def add_holding(request, user_coin_id):
+#     # create the ModelForm using the data in request.POST
+#     form = HoldingForm(request.POST)
+#     # validate the form
+#     if form.is_valid():
+#         # don't save the form to the db until it
+#         # has the user_coin_id assigned
+#         new_holding = form.save(commit=False)
+#         new_holding.user_coin_id = user_coin_id
+#         new_holding.save()
+#     return redirect('user_coins_detail', user_coin_id=user_coin_id)
 
 class User_CoinCreate(LoginRequiredMixin, CreateView):
     model = User_Coin

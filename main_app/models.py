@@ -122,7 +122,7 @@ class Holding(models.Model):
 class Recommendation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     coin = models.ForeignKey(Coin, on_delete=models.CASCADE)
-    recommendation = models.TextField(max_length=500, blank=True)
+    recommendation = models.TextField(max_length=2500, blank=True)
     buy_up_to = models.FloatField(default=0.00)
     origin = models.CharField(max_length=50, blank=True)
     date = models.DateField('Recommendation Date', auto_now_add=True)
