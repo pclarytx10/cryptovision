@@ -20,7 +20,7 @@ CryptoVision is a crypto currency research and portfolio management solution. Th
 --- 
 CryptoVision Main Page:
 Pages to be added...
-<!-- ![Login](images/login_screen.png) -->
+![Login](images/login_screen.png) 
 
 ## Getting Started: 
 --- 
@@ -49,11 +49,12 @@ A live version of this app is hosted on Heroku. To use the app, please visit the
 - [X] Add a Coin from CoinGecko API
   - [X] Search CoinGecko API for Coin
   - [X] Display Currency Name, Symbol, CoinGeck ID
-  
 - [X] Admin View
   - [X] Ability to add, edit, and delete coins
   - [X] Ability to add, edit, and delete user coins
   - [X] Ability to add, edit, and delete holding items
+  - [X] Ability to add, edit, and delete recommendations
+  - [X] Ability to add, edit, and delete notes
 
 ### Future Enhancements:
 - [ ] Scheduled API query to CoinGecko for Updates
