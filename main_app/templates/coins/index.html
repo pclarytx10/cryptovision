@@ -18,6 +18,7 @@
                 <th>MC%</th>
                 <th>ATH</th>
                 <th>ATH%</th>
+                <th>Recommendation</th>
             </tr>
           </thead>
           <tbody>
@@ -30,6 +31,7 @@
                 <td>{{ coin.mcap_percentage|floatformat:1 }}</span>%</td>
                 <td>{{ coin.coin_ath }}</td>
                 <td><span class="report-num">{{ coin.coin_ath_percent|floatformat:1 }}</span>%</td>
+                <td>{{ coin.coin_name }}</td>
                 <td><a class="blue-text text-darken-4" href="{% url 'detail' coin.id %}">View</a></td>
             </tr>
             {% endfor %}

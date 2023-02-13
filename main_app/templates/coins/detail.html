@@ -36,21 +36,55 @@
     </div>
     <div class="row">
         <div class="col s12">
-            <h3>Recommendations</h3>
+            <h3>Recommendations</h3> 
             <hr>
             <div class="col s12">
-                {% for rec in recommendations %}
-                    <div class="col s12">
-                        <p>Origin: {{ rec.origin }}</p>
-                        <p>Date: {{ rec.date|date:"M d, Y" }}</p>
-                        <p>Buy up to Price: ${{ rec.buy_up_to|floatformat:2|intcomma }}</p>
-                        <p>Recommendation: {{ rec.recommendation|safe }}</p>
-                        <a class="blue-text text-darken-4" href="{% url 'recommendations_detail' rec.id %}">View</a>
-                    </div>
-                {% endfor %}
+                <ul class="collapsible notacordian blue-text text-darken-4">
+                    <li>
+                        <div class="collapsible-header">
+                        Create a new Recommendation...
+                        {% comment %} <i class="material-icons">filter_drama</i>  {% endcomment %}
+                        </div>
+                        <div class="collapsible-body">
+                            <form action="{% url 'add_recommendation' coin.id %}" method="POST">
+                            {% csrf_token %}
+                            {{ recommendation_form.as_p }}
+                            <input type="submit" value="Submit" class="btn blue text-darken-4">
+                            </form>
+                        </div>
+                    </li>
+                </ul>
             </div>
+            {% for rec in recommendations %}
+                <div class="card col s6 card-form">
+                    {% comment %} <div class="col s4"> {% endcomment %}
+                        <div class="col s7">
+                            <p><b>Origin:</b> {{ rec.origin }} </p>
+                            <p><b>Date:</b> {{ rec.date|date:"M d, Y" }}</p>
+                            <p><b>Buy up to Price:</b> ${{ rec.buy_up_to|floatformat:2|intcomma }}</p>
+                        </div>
+                        <div class="col s4">
+                            <img class="rec-image" src="https://i.imgur.com/zGUu5ZX.jpg" alt="sample"></img>
+                        </div>
+                        <div class="col s11 card-action">
+                            <a class="blue-text text-darken-4" href="{% url 'recommendations_detail' rec.id %}">View</a>
+                        </div> 
+                    {% comment %} </div> {% endcomment %}
+                </div>
+            {% endfor %}
         </div>
     </div>
 </div>
+
+<script>
+        {% comment %} Initialize Materialize Collapsible {% endcomment %}
+        $(document).ready(function(){
+            $('.notacordian').collapsible();
+          }); 
+          var elem = document.querySelector('.expandable');
+          var instance = M.Collapsible.init(elem, {
+            accordion: false
+          });
+</script>
 
 {%endblock%}

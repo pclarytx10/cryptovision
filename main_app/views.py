@@ -1,4 +1,4 @@
-from .forms import HoldingForm, SearchForm
+from .forms import HoldingForm, SearchForm, RecommendationForm
 from .models import Coin, User_Coin, Holding, Categories, Recommendation, Note
 import requests, html
 from django.http import HttpResponse
@@ -63,12 +63,14 @@ def coins_index(request):
 def coins_detail(request, coin_id):
     coin = Coin.objects.get(id=coin_id)
     recommendations = Recommendation.objects.filter(coin=coin_id)
-
+    recommendation_form = RecommendationForm()
     create_user_coin_url = reverse('user_coins_create', kwargs={'coin_id': coin_id})
     
     return render(request, 'coins/detail.html', {
         'coin': coin,
         'recommendations': recommendations,
+        # 'holding_form': holding_form,
+        'recommendation_form': recommendation_form,
         'create_user_coin_url': create_user_coin_url
     })
 
@@ -212,6 +214,21 @@ class RecommendationUpdate(LoginRequiredMixin, UpdateView):
 class RecommendationDelete(LoginRequiredMixin, DeleteView):
     model = Recommendation
     success_url = '/coins/'
+    
+# Define adding a hodling to a user coin 
+@login_required
+def add_recommendation(request, coin_id):
+    # create the ModelForm using the data in request.POST
+    form = RecommendationForm(request.POST)
+    # validate the form
+    if form.is_valid():
+        # don't save the form to the db until it
+        # has the user_coin_id assigned
+        new_reccomendation = form.save(commit=False)
+        new_reccomendation.user_id = request.user.id
+        new_reccomendation.coin_id = coin_id
+        new_reccomendation.save()
+    return redirect('detail', coin_id=coin_id)
 
 # Define adding a hodling to a user coin 
 # @login_required
