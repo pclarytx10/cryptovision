@@ -19,8 +19,8 @@ CryptoVision is a crypto currency research and portfolio management solution. Th
 ## Screenshot(s):
 --- 
 CryptoVision Main Page:
-Pages to be added...
-![Login](images/login_screen.png) 
+![Login](images/main.png) 
+![ERD](images/erd.jpg)
 
 ## Getting Started: 
 --- 
