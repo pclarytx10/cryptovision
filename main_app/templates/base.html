@@ -54,7 +54,7 @@
             <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Coins</a></li>
             <li><a href="/user_coins">My Coins</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
-            <li><a href="{% url 'test' %}">Query Test</a></li>
+            {% comment %} <li><a href="{% url 'test' %}">Query Test</a></li> {% endcomment %}
           {% else %}
             <li><a href="{% url 'login' %}">Log In</a></li>
             <li><a href="{% url 'signup' %}">Sign Up</a></li>
