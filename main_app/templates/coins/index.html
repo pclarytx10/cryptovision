@@ -18,20 +18,27 @@
                 <th>MC%</th>
                 <th>ATH</th>
                 <th>ATH%</th>
-                <th>Recommendation</th>
+                <th>Buy Up To</th>
+                <th>Recomend</th>
             </tr>
           </thead>
           <tbody>
-            {% for coin in coins %}            
+            {% for coin in coins %} 
             <tr>
                 <td><img class="tbl-img" src="{{ coin.coin_image }}" alt="coin image"> <span>{{ coin.coin_name }}</span></td>
                 <td>{{ coin.coin_symbol }}</td>
                 <td>${{ coin.coin_usd|floatformat:2|intcomma }}</td>
                 <td><span class="report-num">{{ coin.coin_change|floatformat:1 }}%</td>
                 <td>{{ coin.mcap_percentage|floatformat:1 }}</span>%</td>
-                <td>{{ coin.coin_ath }}</td>
+                <td>${{ coin.coin_at|floatformat:2|intcomma }}</td>
                 <td><span class="report-num">{{ coin.coin_ath_percent|floatformat:1 }}</span>%</td>
-                <td>{{ coin.coin_name }}</td>
+                {% if coin.buy_up_to == 0 %}
+                  <td>No Rec</td>
+                  <td class="buy-rec">0</td>
+                {% else %}
+                  <td>${{ coin.buy_up_to|floatformat:2|intcomma }}</td>
+                  <td class="buy-rec">{{ coin.calc_rec }}</td>
+                {% endif %}
                 <td><a class="blue-text text-darken-4" href="{% url 'detail' coin.id %}">View</a></td>
             </tr>
             {% endfor %}
@@ -46,6 +53,19 @@
     if(num < 0) {
       $(this).css('color', 'red');
     } else {
+      $(this).css('color', 'green');
+    }
+  });
+  $(`.buy-rec`).each(function() {
+    let num = parseFloat($(this)[0].outerText);
+    if(num == 0) {
+      $(this).html('<i class="material-icons">do_not_disturb_on</i>');
+      $(this).css('color', 'lightgrey');
+    } else if (num < 0){
+      $(this).html('<i class="material-icons">pause_circle_outline</i>');
+      $(this).css('color', 'red');
+    } else {
+      $(this).html('<i class="material-icons">check_circle</i>');
       $(this).css('color', 'green');
     }
   });

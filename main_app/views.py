@@ -1,11 +1,11 @@
 from .forms import HoldingForm, SearchForm, RecommendationForm
 from .models import Coin, User_Coin, Holding, Categories, Recommendation, Note
-import requests, html
+import requests
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.db.models import Count, Sum, Value, F, Func
+from django.db.models import Count, Sum, Value, F, OuterRef, Subquery
 from django.db.models.functions import Coalesce 
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -43,15 +43,19 @@ def coins_index(request):
     except requests.exceptions.RequestException as e:
         return HttpResponse("Error: " + str(e), status=404) 
     
-    # coin.coin_mcap|div:gbl_items.total_market_cap.usd|mul:100|floatformat:1
+    # Pull the global market data from the Coingecko API and store to calculate market cap percentage
     gbl_items = data['data'] 
-    
     gbl_marketcap = gbl_items['total_market_cap']['usd']
-    
     coins = Coin.objects.all()
-    # Calculate the market cap percentage
+   
+    # Annotate the coins with the first buy up to value from the recommendation table and calculate the market cap percentage
     coins = Coin.objects.annotate(
+        first_buy_up = Subquery(
+            Recommendation.objects.filter(coin_id = OuterRef('id') ).values('buy_up_to')[:1]),
+        buy_up_to=Coalesce(F('first_buy_up'), 0.0),
         mcap_percentage= F('coin_mcap') / Value(gbl_marketcap) * 100 )
+    
+    coins = coins.annotate( calc_rec = F('buy_up_to') - F('coin_usd') )
     
     coins = coins.order_by('-mcap_percentage')
     return render(request, 'coins/index.html', { 
@@ -229,20 +233,6 @@ def add_recommendation(request, coin_id):
         new_reccomendation.coin_id = coin_id
         new_reccomendation.save()
     return redirect('detail', coin_id=coin_id)
-
-# Define adding a hodling to a user coin 
-# @login_required
-# def add_holding(request, user_coin_id):
-#     # create the ModelForm using the data in request.POST
-#     form = HoldingForm(request.POST)
-#     # validate the form
-#     if form.is_valid():
-#         # don't save the form to the db until it
-#         # has the user_coin_id assigned
-#         new_holding = form.save(commit=False)
-#         new_holding.user_coin_id = user_coin_id
-#         new_holding.save()
-#     return redirect('user_coins_detail', user_coin_id=user_coin_id)
 
 class User_CoinCreate(LoginRequiredMixin, CreateView):
     model = User_Coin
