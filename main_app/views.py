@@ -13,9 +13,15 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
+# Import environs to read .env file
+from environs import Env
+env = Env()
+env.read_env() # read .env file, if it exists
 
 # Coingecko API
 apiRoot ="https://api.coingecko.com/api/v3/"
+apiKey = env('COINGECKO_API_KEY')
+
 # API Methods
 global_method = "global" # Get cc global data
 getList = 'coins/list' # List of all supported cc, cache for later queries
@@ -35,7 +41,7 @@ def about(request):
 @login_required
 def coins_index(request):
     # Pull the global market data from the Coingecko API
-    url = apiRoot + global_method  
+    url = apiRoot + global_method + apiKey 
 
     try:
         response = requests.get(url)
@@ -112,7 +118,7 @@ def search(request):
             query_lower = query.lower()
             
             # Grab the list of coins from the CoinGecko API
-            url = apiRoot + getList    
+            url = apiRoot + getList + apiKey    
             try:
                 response = requests.get(url)
                 data = response.json()
@@ -299,7 +305,7 @@ class API_CoinCreate(LoginRequiredMixin, CreateView):
         initial = super().get_initial()
         coingecko_id = self.kwargs.get('coingecko_id')
         
-        url = apiRoot + getCoin + coingecko_id   
+        url = apiRoot + getCoin + coingecko_id + apiKey  
         # url = apiRoot + getCoin + 'categories/list'
         try:
             response = requests.get(url)
@@ -311,9 +317,10 @@ class API_CoinCreate(LoginRequiredMixin, CreateView):
         category_ids = []
         for item in data['categories']:
             query = Categories.objects.filter(category_name=item)
-            category_ids.append(query[0].id)
+            category_ids.append(item)
             # print(item, query) # Use to troubleshoot Index Error in future
-        
+            # print(category_ids)
+            
         # Test McapRank, provide default if not available
         if data['market_cap_rank']:
             marketcap_rank = data['market_cap_rank']
@@ -354,7 +361,7 @@ class API_CoinCreate(LoginRequiredMixin, CreateView):
 # Test view for testing query output
 def test(request):
     # Pull the global market data from the Coingecko API
-    url = apiRoot + global_method  
+    url = apiRoot + global_method + apiKey 
 
     try:
         response = requests.get(url)

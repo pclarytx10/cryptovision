@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Coin(models.Model):
-    coin_name = models.CharField(max_length=50)
+    coin_name = models.CharField(max_length=100)
     api_id = models.CharField(max_length=250, blank=True)
     coin_symbol = models.CharField(max_length=10, blank=True)
-    # categories = models.CharField(max_length=250, blank=True)
+    # categories = models.CharField(max_length=500, blank=True)
     categories = models.ManyToManyField('Categories', blank=True)
     coin_usd = models.FloatField(default=0.00)
     # Pull en localization via API
@@ -40,11 +40,11 @@ class Coin(models.Model):
         return reverse('coins_detail', kwargs={'coin_id': self.id})
 
 class Categories(models.Model):
-    category_id = models.CharField(max_length=250, blank=True)
+    # category_id = models.CharField(max_length=250, blank=True)
     category_name = models.CharField(max_length=250, blank=True)
     
     def __str__(self) -> str:
-        return self.category_id
+        return self.category_name
 
 class User_Coin(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -82,8 +82,10 @@ class Holding(models.Model):
         ('X', 'Bittrex'),
         ('E', 'Cex.io'),
         ('C', 'Coinbase'),
+        ('T', 'Crypto.com'),
         ('G', 'Gemini'),
         ('K', 'Kraken'),
+        ('N', 'Kucoin'),
         ('O', 'Other')
     )
     exchange = models.CharField(max_length=1, choices=EXCHANGE, blank=True)
@@ -97,6 +99,7 @@ class Holding(models.Model):
         ('R', 'Trezor'),
         ('T', 'Trust Wallet'),
         ('Y', 'Yoroi Wallet'),
+        ('X', 'Xdefi Wallet'),
         ('O', 'Other')
     )
     wallet = models.CharField(max_length=1, choices=WALLET, blank=True)
