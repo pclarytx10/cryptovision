@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': env('DATABASE_NAME'),
         'USER': env('DATABASE_USERNAME'),
         'PASSWORD': env('DATABASE_PASSWORD'),
-        'HOST': 'db.bit.io',
+        'HOST': '10.0.0.69',
         'PORT': '5432',
     }
 }
